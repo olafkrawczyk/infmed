@@ -1,9 +1,9 @@
 package com.gubkra.infmed.infmedRest.utils;
 
 import com.gubkra.infmed.infmedRest.domain.Address;
-import com.gubkra.infmed.infmedRest.domain.Patient;
+import com.gubkra.infmed.infmedRest.domain.User;
 import com.gubkra.infmed.infmedRest.service.domain.address.AddressService;
-import com.gubkra.infmed.infmedRest.service.domain.patient.PatientService;
+import com.gubkra.infmed.infmedRest.service.domain.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,6 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 /**
  * Created by Olaf on 2018-03-11.
@@ -27,7 +26,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     private AddressService addressService;
 
     @Autowired
-    private PatientService patientService;
+    private UserService userService;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
@@ -35,20 +34,23 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         logger.info("Data loader invoked...");
 
         loadAddresses();
+        loadUsers();
+    }
 
-        Patient patient = new Patient();
-        patient.setEmailAddress("patient@example.com");
-        patient.setPassword("password12345");
-        patient.setUsername("user1");
-        patient.setBirthDate(LocalDate.of(1994, 4, 12));
-        patient.setPhoneNumber("634 234 345");
-        patient.setName("Jan");
-        patient.setSurname("Kowalski");
-        patient.setPesel("94041243567");
+    private void loadUsers() {
+        User user = new User();
+        user.setEmailAddress("user@example.com");
+        user.setPassword("password12345");
+        user.setUsername("user1");
+        user.setBirthDate(LocalDate.of(1994, 4, 12));
+        user.setPhoneNumber("634 234 345");
+        user.setName("Jan");
+        user.setSurname("Kowalski");
+        user.setPesel("94041243567");
 
-        addressService.findById((long)1).ifPresent(patient::setAddress);
+        addressService.findById((long)1).ifPresent(user::setAddress);
 
-        patientService.addItem(patient);
+        userService.addItem(user);
     }
 
     private void loadAddresses() {

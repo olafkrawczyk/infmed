@@ -2,11 +2,9 @@ package com.gubkra.infmed.infmedRest.domain;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.UUID;
 
 /**
@@ -15,7 +13,7 @@ import java.util.UUID;
 
 @Entity
 @Data
-public class Patient {
+public class User {
     @Id
     UUID uuid;
 
@@ -40,4 +38,15 @@ public class Patient {
 
     @OneToOne()
     Address address;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id",
+                    referencedColumnName = "uuid"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id",
+                    referencedColumnName = "id"
+            ))
+    private Collection<Role> roles;
 }
