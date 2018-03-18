@@ -39,6 +39,7 @@ public class User {
     @OneToOne()
     Address address;
 
+    
     @ManyToMany
     @JoinTable(
             name = "user_roles",
