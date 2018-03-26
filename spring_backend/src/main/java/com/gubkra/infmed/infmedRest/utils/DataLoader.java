@@ -8,6 +8,8 @@ import com.gubkra.infmed.infmedRest.repository.PrivilegeRepository;
 import com.gubkra.infmed.infmedRest.repository.RoleRepository;
 import com.gubkra.infmed.infmedRest.service.domain.address.AddressService;
 import com.gubkra.infmed.infmedRest.service.domain.user.UserService;
+import com.gubkra.infmed.infmedRest.service.domain.user.exceptions.EmailExists;
+import com.gubkra.infmed.infmedRest.service.domain.user.exceptions.UserExists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,12 +80,13 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         user.setSurname("Kowalski");
         user.setPesel("94041243567");
 
-        Role doctorRole = roleRepository.findByName(SecurityConstants.ROLE_DOCTOR);
-        user.setRoles(Arrays.asList(doctorRole));
-
         addressService.findById((long) 1).ifPresent(user::setAddress);
 
-        userService.addItem(user);
+        try {
+            userService.registerDoctor(user);
+        } catch (EmailExists | UserExists emailExists) {
+            emailExists.printStackTrace();
+        }
     }
 
     private void loadAddresses() {

@@ -5,6 +5,8 @@ import com.gubkra.infmed.infmedRest.domain.User;
 import com.gubkra.infmed.infmedRest.domain.dto.UserDTO;
 import com.gubkra.infmed.infmedRest.domain.dto.UserRegisterDTO;
 import com.gubkra.infmed.infmedRest.service.domain.user.UserService;
+import com.gubkra.infmed.infmedRest.service.domain.user.exceptions.EmailExists;
+import com.gubkra.infmed.infmedRest.service.domain.user.exceptions.UserExists;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,11 +35,26 @@ public class UserController {
         return Streams.stream(userService.findAll()).map(x -> modelMapper.map(x, UserRegisterDTO.class)).collect(Collectors.toList());
     }
 
-    @PostMapping(value = "/register")
-    public ResponseEntity registerUser(@Valid @RequestBody UserRegisterDTO user) {
+    @PostMapping(value = "/register/patient")
+    public ResponseEntity registerPatient(@Valid @RequestBody UserRegisterDTO user) {
         User newUser = modelMapper.map(user, User.class);
-        userService.addItem(newUser);
-        return ResponseEntity.ok("Saved");
+        try {
+            userService.registerPatient(newUser);
+        } catch (EmailExists | UserExists error) {
+            return ResponseEntity.status(400).body(error.getMessage());
+        }
+        return ResponseEntity.ok("Patient saved");
+    }
+
+    @PostMapping(value = "/register/doctor")
+    public ResponseEntity registerDoctor(@Valid @RequestBody UserRegisterDTO user) {
+        User newUser = modelMapper.map(user, User.class);
+        try {
+            userService.registerDoctor(newUser);
+        } catch (EmailExists | UserExists error) {
+            return ResponseEntity.status(400).body(error.getMessage());
+        }
+        return ResponseEntity.ok("Doctor saved");
     }
 
 }
