@@ -1,9 +1,9 @@
 package com.gubkra.infmed.infmedRest.utils;
 
 import com.gubkra.infmed.infmedRest.domain.Address;
+import com.gubkra.infmed.infmedRest.domain.AppUser;
 import com.gubkra.infmed.infmedRest.domain.Privilege;
 import com.gubkra.infmed.infmedRest.domain.Role;
-import com.gubkra.infmed.infmedRest.domain.User;
 import com.gubkra.infmed.infmedRest.repository.PrivilegeRepository;
 import com.gubkra.infmed.infmedRest.repository.RoleRepository;
 import com.gubkra.infmed.infmedRest.service.domain.address.AddressService;
@@ -70,20 +70,20 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     }
 
     private void loadUsers() {
-        User user = new User();
-        user.setEmailAddress("user@example.com");
-        user.setPassword("password12345");
-        user.setUsername("user1");
-        user.setBirthDate(LocalDate.of(1994, 4, 12));
-        user.setPhoneNumber("634 234 345");
-        user.setName("Jan");
-        user.setSurname("Kowalski");
-        user.setPesel("94041243567");
+        AppUser appUser = new AppUser();
+        appUser.setEmailAddress("appUser@example.com");
+        appUser.setPassword("password12345");
+        appUser.setUsername("user1");
+        appUser.setBirthDate(LocalDate.of(1994, 4, 12));
+        appUser.setPhoneNumber("634 234 345");
+        appUser.setName("Jan");
+        appUser.setSurname("Kowalski");
+        appUser.setPesel("94041243567");
 
-        addressService.findById((long) 1).ifPresent(user::setAddress);
+        addressService.findById((long) 1).ifPresent(appUser::setAddress);
 
         try {
-            userService.registerDoctor(user);
+            userService.registerDoctor(appUser);
         } catch (EmailExists | UserExists emailExists) {
             emailExists.printStackTrace();
         }

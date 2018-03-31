@@ -13,7 +13,7 @@ import java.util.UUID;
  */
 
 @Data
-public class UserDTO {
+public class AppUserDTO {
    private UUID uuid;
 
    @NotNull

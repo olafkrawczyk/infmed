@@ -1,10 +1,14 @@
 package com.gubkra.infmed.infmedRest.domain;
 
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -13,7 +17,7 @@ import java.util.UUID;
 
 @Entity
 @Data
-public class User {
+public class AppUser {
     @Id
     UUID uuid;
 
@@ -40,7 +44,7 @@ public class User {
     Address address;
 
     
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id",
@@ -50,4 +54,9 @@ public class User {
                     referencedColumnName = "id"
             ))
     private Collection<Role> roles;
+
+    @Override
+    public String toString(){
+        return "[User]"+this.uuid + " : " + this.getUsername();
+    }
 }

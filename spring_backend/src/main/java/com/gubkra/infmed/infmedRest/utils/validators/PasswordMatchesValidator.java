@@ -1,6 +1,6 @@
 package com.gubkra.infmed.infmedRest.utils.validators;
 
-import com.gubkra.infmed.infmedRest.domain.dto.UserRegisterDTO;
+import com.gubkra.infmed.infmedRest.domain.dto.AppUserRegisterDTO;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -13,7 +13,7 @@ public class PasswordMatchesValidator
     }
     @Override
     public boolean isValid(Object obj, ConstraintValidatorContext context){
-        UserRegisterDTO user = (UserRegisterDTO) obj;
+        AppUserRegisterDTO user = (AppUserRegisterDTO) obj;
         return user.getPassword().equals(user.getMatchingPassword());
     }
 }

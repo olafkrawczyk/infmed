@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
  */
 @PasswordMatches
 @Data
-public class UserRegisterDTO extends UserDTO {
+public class AppUserRegisterDTO extends AppUserDTO {
     @NotNull
     private String password;
     @NotNull

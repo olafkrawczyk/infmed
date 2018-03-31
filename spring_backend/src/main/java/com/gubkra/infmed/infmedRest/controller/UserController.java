@@ -1,9 +1,9 @@
 package com.gubkra.infmed.infmedRest.controller;
 
 import com.google.common.collect.Streams;
-import com.gubkra.infmed.infmedRest.domain.User;
-import com.gubkra.infmed.infmedRest.domain.dto.UserDTO;
-import com.gubkra.infmed.infmedRest.domain.dto.UserRegisterDTO;
+import com.gubkra.infmed.infmedRest.domain.AppUser;
+import com.gubkra.infmed.infmedRest.domain.dto.AppUserDTO;
+import com.gubkra.infmed.infmedRest.domain.dto.AppUserRegisterDTO;
 import com.gubkra.infmed.infmedRest.service.domain.user.UserService;
 import com.gubkra.infmed.infmedRest.service.domain.user.exceptions.EmailExists;
 import com.gubkra.infmed.infmedRest.service.domain.user.exceptions.UserExists;
@@ -12,6 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,16 +33,17 @@ public class UserController {
 
     private ModelMapper modelMapper = new ModelMapper();
 
+    @Secured({"ROLE_DOCTOR"})
     @GetMapping(value = "")
-    public List<UserDTO> getAll() {
-        return Streams.stream(userService.findAll()).map(x -> modelMapper.map(x, UserRegisterDTO.class)).collect(Collectors.toList());
+    public List<AppUserDTO> getAll() {
+        return Streams.stream(userService.findAll()).map(x -> modelMapper.map(x, AppUserRegisterDTO.class)).collect(Collectors.toList());
     }
 
     @PostMapping(value = "/register/patient")
-    public ResponseEntity registerPatient(@Valid @RequestBody UserRegisterDTO user) {
-        User newUser = modelMapper.map(user, User.class);
+    public ResponseEntity registerPatient(@Valid @RequestBody AppUserRegisterDTO user) {
+        AppUser newAppUser = modelMapper.map(user, AppUser.class);
         try {
-            userService.registerPatient(newUser);
+            userService.registerPatient(newAppUser);
         } catch (EmailExists | UserExists error) {
             return ResponseEntity.status(400).body(error.getMessage());
         }
@@ -47,10 +51,10 @@ public class UserController {
     }
 
     @PostMapping(value = "/register/doctor")
-    public ResponseEntity registerDoctor(@Valid @RequestBody UserRegisterDTO user) {
-        User newUser = modelMapper.map(user, User.class);
+    public ResponseEntity registerDoctor(@Valid @RequestBody AppUserRegisterDTO user) {
+        AppUser newAppUser = modelMapper.map(user, AppUser.class);
         try {
-            userService.registerDoctor(newUser);
+            userService.registerDoctor(newAppUser);
         } catch (EmailExists | UserExists error) {
             return ResponseEntity.status(400).body(error.getMessage());
         }
