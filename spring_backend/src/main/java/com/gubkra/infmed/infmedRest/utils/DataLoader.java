@@ -70,20 +70,32 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     }
 
     private void loadUsers() {
+        AppUser patient = new AppUser();
+        patient.setEmailAddress("patient@example.com");
+        patient.setPassword("password12345");
+        patient.setUsername("patient1");
+        patient.setBirthDate(LocalDate.of(1994, 4, 12));
+        patient.setPhoneNumber("634 234 345");
+        patient.setName("Kazik");
+        patient.setSurname("Nowak");
+        patient.setPesel("93853712563");
+
         AppUser appUser = new AppUser();
-        appUser.setEmailAddress("appUser@example.com");
+        appUser.setEmailAddress("doctor@example.com");
         appUser.setPassword("password12345");
-        appUser.setUsername("user1");
+        appUser.setUsername("doctor1");
         appUser.setBirthDate(LocalDate.of(1994, 4, 12));
-        appUser.setPhoneNumber("634 234 345");
+        appUser.setPhoneNumber("876 234 543");
         appUser.setName("Jan");
         appUser.setSurname("Kowalski");
         appUser.setPesel("94041243567");
 
         addressService.findById((long) 1).ifPresent(appUser::setAddress);
+        addressService.findById((long) 2).ifPresent(patient::setAddress);
 
         try {
             userService.registerDoctor(appUser);
+            userService.registerPatient(patient);
         } catch (EmailExists | UserExists emailExists) {
             emailExists.printStackTrace();
         }
