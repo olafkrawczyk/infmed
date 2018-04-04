@@ -55,11 +55,14 @@ public class AppUser {
             ))
     private Collection<Role> roles;
 
-    @OneToMany(mappedBy = "doctor")
+    @ManyToMany
+    @JoinTable(name = "doctor_patient",
+    joinColumns = @JoinColumn(name = "doctor_uuid"),
+    inverseJoinColumns = @JoinColumn(name = "patient_uuid"))
     private Collection<AppUser> patients;
 
-    @ManyToOne
-    private AppUser doctor;
+    @ManyToMany(mappedBy = "patients")
+    private Collection<AppUser> doctors;
 
     @Override
     public String toString(){

@@ -106,8 +106,8 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
             emailExists.printStackTrace();
         }
 
-        patient.setDoctor(appUser);
-        appUserRepository.save(patient);
+        appUser.setPatients(Arrays.asList(patient));
+        appUserRepository.save(appUser);
     }
 
     private void loadAddresses() {
