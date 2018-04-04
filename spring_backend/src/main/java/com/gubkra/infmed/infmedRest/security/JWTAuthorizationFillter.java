@@ -51,7 +51,6 @@ public class JWTAuthorizationFillter extends BasicAuthenticationFilter {
                     .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
                     .getBody()
                     .getSubject();
-            logger.info(username);
 
             AppUser appUser = userService.findByUsername(username);
 

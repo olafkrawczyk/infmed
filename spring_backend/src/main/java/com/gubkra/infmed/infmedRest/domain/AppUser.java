@@ -19,29 +19,29 @@ import java.util.UUID;
 @Data
 public class AppUser {
     @Id
-    UUID uuid;
+    private UUID uuid;
 
     @Column(nullable = false)
-    String name;
+    private String name;
     @Column(nullable = false)
-    String surname;
+    private String surname;
     @Column(unique = true, nullable = false)
-    String pesel;
+    private String pesel;
     @Column(nullable = false)
-    LocalDate birthDate;
+    private LocalDate birthDate;
 
     @Column(nullable = false)
-    String phoneNumber;
-
-    @Column(unique = true, nullable = false)
-    String emailAddress;
+    private String phoneNumber;
 
     @Column(unique = true, nullable = false)
-    String username;
-    String password;
+    private String emailAddress;
+
+    @Column(unique = true, nullable = false)
+    private String username;
+    private String password;
 
     @OneToOne()
-    Address address;
+    private Address address;
 
     
     @ManyToMany(fetch = FetchType.EAGER)
@@ -54,6 +54,18 @@ public class AppUser {
                     referencedColumnName = "id"
             ))
     private Collection<Role> roles;
+
+    @ManyToMany
+    @JoinTable(name = "doctor_patient",
+    joinColumns = @JoinColumn(name = "doctor_uuid"),
+    inverseJoinColumns = @JoinColumn(name = "patient_uuid"))
+    private Collection<AppUser> patients;
+
+    @ManyToMany(mappedBy = "patients")
+    private Collection<AppUser> doctors;
+
+    @OneToMany(mappedBy = "patient")
+    private Collection<MedicalExamination> examinations;
 
     @Override
     public String toString(){

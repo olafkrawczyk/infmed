@@ -1,11 +1,7 @@
 package com.gubkra.infmed.infmedRest.utils;
 
-import com.gubkra.infmed.infmedRest.domain.Address;
-import com.gubkra.infmed.infmedRest.domain.AppUser;
-import com.gubkra.infmed.infmedRest.domain.Privilege;
-import com.gubkra.infmed.infmedRest.domain.Role;
-import com.gubkra.infmed.infmedRest.repository.PrivilegeRepository;
-import com.gubkra.infmed.infmedRest.repository.RoleRepository;
+import com.gubkra.infmed.infmedRest.domain.*;
+import com.gubkra.infmed.infmedRest.repository.*;
 import com.gubkra.infmed.infmedRest.service.domain.address.AddressService;
 import com.gubkra.infmed.infmedRest.service.domain.user.UserService;
 import com.gubkra.infmed.infmedRest.service.domain.user.exceptions.EmailExists;
@@ -17,7 +13,9 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -43,6 +41,14 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AppUserRepository appUserRepository;
+
+    @Autowired
+    private TemperatureExaminationRepository temperatureExaminationRepository;
+    @Autowired
+    private HeartRateExaminationRepository heartRateExaminationRepository;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
@@ -93,12 +99,35 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         addressService.findById((long) 1).ifPresent(appUser::setAddress);
         addressService.findById((long) 2).ifPresent(patient::setAddress);
 
+        assignPatientToDoctor(patient, appUser);
+
+        addExaminations(patient);
+
+    }
+
+    private void assignPatientToDoctor(AppUser patient, AppUser appUser) {
         try {
             userService.registerDoctor(appUser);
             userService.registerPatient(patient);
+            appUser.setPatients(Arrays.asList(patient));
+            appUserRepository.save(appUser);
         } catch (EmailExists | UserExists emailExists) {
             emailExists.printStackTrace();
         }
+    }
+
+    private void addExaminations(AppUser patient) {
+        TemperatureExamination temp1 = new TemperatureExamination();
+        temp1.setValue(36.6);
+        temp1.setPatient(patient);
+        temp1.setDate(LocalDate.now());
+        temperatureExaminationRepository.save(temp1);
+
+        HeartRateExaminaiton hr1 = new HeartRateExaminaiton();
+        hr1.setValue(120);
+        hr1.setDate(LocalDate.now());
+        hr1.setPatient(patient);
+        heartRateExaminationRepository.save(hr1);
     }
 
     private void loadAddresses() {

@@ -12,15 +12,15 @@ import javax.persistence.*;
 public class Address {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-    Long id;
+    private Long id;
 
     @Column(nullable = false)
-    String city;
+    private String city;
     @Column(nullable = false)
-    String postalCode;
+    private String postalCode;
     @Column(nullable = false)
-    String street;
+    private String street;
     @Column(nullable = false)
-    String houseNumber;
-    String apartmentNumber;
+    private String houseNumber;
+    private String apartmentNumber;
 }
