@@ -64,6 +64,9 @@ public class AppUser {
     @ManyToMany(mappedBy = "patients")
     private Collection<AppUser> doctors;
 
+    @OneToMany(mappedBy = "patient")
+    private Collection<MedicalExamination> examinations;
+
     @Override
     public String toString(){
         return "[User]"+this.uuid + " : " + this.getUsername();
