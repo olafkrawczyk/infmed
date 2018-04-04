@@ -15,9 +15,9 @@ public class Role {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-    Long id;
+    private Long id;
 
-    String name;
+    private String name;
 
     @ManyToMany
     @JoinTable(

@@ -4,6 +4,7 @@ import com.gubkra.infmed.infmedRest.domain.Address;
 import com.gubkra.infmed.infmedRest.domain.AppUser;
 import com.gubkra.infmed.infmedRest.domain.Privilege;
 import com.gubkra.infmed.infmedRest.domain.Role;
+import com.gubkra.infmed.infmedRest.repository.AppUserRepository;
 import com.gubkra.infmed.infmedRest.repository.PrivilegeRepository;
 import com.gubkra.infmed.infmedRest.repository.RoleRepository;
 import com.gubkra.infmed.infmedRest.service.domain.address.AddressService;
@@ -17,7 +18,9 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -43,6 +46,9 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AppUserRepository appUserRepository;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
@@ -99,6 +105,9 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         } catch (EmailExists | UserExists emailExists) {
             emailExists.printStackTrace();
         }
+
+        patient.setDoctor(appUser);
+        appUserRepository.save(patient);
     }
 
     private void loadAddresses() {
