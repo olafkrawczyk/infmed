@@ -1,6 +1,7 @@
 package com.gubkra.infmed.infmedRest.controller;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.gubkra.infmed.infmedRest.domain.AppUser;
 import com.gubkra.infmed.infmedRest.service.doctor.DoctorErrorMessages;
 import com.gubkra.infmed.infmedRest.service.doctor.DoctorService;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+@Secured("ROLE_DOCTOR")
 @RestController
 @RequestMapping(value = "/doctor")
 public class DoctorController {
@@ -23,7 +25,6 @@ public class DoctorController {
     private String patient_key = "patient_uuid";
     private String doctor_key = "doctor_uuid";
 
-    @Secured("ROLE_DOCTOR")
     @PostMapping(value = "/patient")
     public ResponseEntity registerPatient(@RequestBody ObjectNode request) {
 
@@ -42,7 +43,7 @@ public class DoctorController {
         return ResponseEntity.ok("Patient successfully registered.");
     }
 
-    @Secured("ROLE_DOCTOR")
+
     @DeleteMapping(value = "/patient")
     public ResponseEntity removePatient(@RequestBody ObjectNode request) {
 
@@ -61,7 +62,54 @@ public class DoctorController {
         return ResponseEntity.ok("Patient successfully removed from doctor.");
     }
 
-    private UUID getUUID(@RequestBody ObjectNode request, String key) {
+    @PostMapping(value = "/examination/{patientUsername}/temperature")
+    public ResponseEntity saveTemperatureExamination(@PathVariable String patientUsername, @RequestBody ObjectNode request) {
+        Double temperature;
+        
+        if (!request.hasNonNull("value")) {
+            return ResponseEntity.badRequest().body("Could not find value field in request");
+        }
+
+        try {
+            temperature = Double.valueOf(request.get("value").asText());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Invalid value: " + request.get("value").asText() + ". Could not convert to double");
+        }
+
+        try {
+            doctorService.saveTemperatureExamination(patientUsername, temperature);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+        return ResponseEntity.ok("Examination saved");
+    }
+
+    @PostMapping(value = "/examination/{patientUsername}/heart-rate")
+    public ResponseEntity saveHeartRateExamination(@PathVariable String patientUsername, @RequestBody ObjectNode request) {
+        Integer heartRate;
+
+        if (!request.hasNonNull("value")) {
+            return ResponseEntity.badRequest().body("Could not find value field in request");
+        }
+
+        try {
+            heartRate = Integer.valueOf(request.get("value").asText());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Invalid value: " + request.get("value").asText() + ". Could not convert to Integer");
+        }
+
+        try {
+            doctorService.saveHeartRateExamination(patientUsername, heartRate);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+        return ResponseEntity.ok("Examination saved");
+    }
+
+    private UUID getUUID(ObjectNode request, String key) {
         return UUID.fromString(request.get(key).asText());
     }
+
 }

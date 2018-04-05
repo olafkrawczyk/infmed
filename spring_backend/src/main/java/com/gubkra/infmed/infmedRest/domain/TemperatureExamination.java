@@ -8,5 +8,5 @@ import javax.persistence.Entity;
 @Data
 @Entity
 public class TemperatureExamination extends MedicalExamination {
-    private double value;
+    private Double value;
 }

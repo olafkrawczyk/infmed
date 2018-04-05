@@ -1,9 +1,12 @@
 package com.gubkra.infmed.infmedRest.service.doctor;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.gubkra.infmed.infmedRest.domain.AppUser;
+import com.gubkra.infmed.infmedRest.domain.HeartRateExaminaiton;
 import com.gubkra.infmed.infmedRest.domain.Role;
+import com.gubkra.infmed.infmedRest.domain.TemperatureExamination;
+import com.gubkra.infmed.infmedRest.repository.HeartRateExaminationRepository;
 import com.gubkra.infmed.infmedRest.repository.RoleRepository;
+import com.gubkra.infmed.infmedRest.repository.TemperatureExaminationRepository;
 import com.gubkra.infmed.infmedRest.service.domain.user.UserService;
 import com.gubkra.infmed.infmedRest.utils.SecurityConstants;
 import org.slf4j.Logger;
@@ -11,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,12 +28,19 @@ public class DoctorServiceImpl implements DoctorService {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private TemperatureExaminationRepository temperatureExaminationRepository;
+
+    @Autowired
+    private HeartRateExaminationRepository heartRateExaminationRepository;
+
     @Override
     public void registerPatient(UUID doctor_uuid, UUID patient_uuid) throws IllegalArgumentException {
         Optional<AppUser> doctor = userService.findById(doctor_uuid);
         Optional<AppUser> patient = userService.findById(patient_uuid);
 
-        checkUsersAndRoles(doctor, patient);
+        doctor.ifPresent(this::checkDoctorRole);
+        patient.ifPresent(this::checkPatientRole);
 
         if (!doctor.get().getPatients().contains(patient.get())) {
             doctor.ifPresent((d) -> d.getPatients().add(patient.get()));
@@ -46,7 +57,8 @@ public class DoctorServiceImpl implements DoctorService {
         Optional<AppUser> doctor = userService.findById(doctor_uuid);
         Optional<AppUser> patient = userService.findById(patient_uuid);
 
-        checkUsersAndRoles(doctor, patient);
+        doctor.ifPresent(this::checkDoctorRole);
+        patient.ifPresent(this::checkPatientRole);
 
         if (doctor.get().getPatients().contains(patient.get())) {
             doctor.ifPresent((d) -> d.getPatients().remove(patient.get()));
@@ -58,14 +70,54 @@ public class DoctorServiceImpl implements DoctorService {
         }
     }
 
-    private void checkUsersAndRoles(Optional<AppUser> doctor, Optional<AppUser> patient) {
-        Role doctorRole = roleRepository.findByName(SecurityConstants.ROLE_DOCTOR);
-        Role patientRole = roleRepository.findByName(SecurityConstants.ROLE_PATIENT);
-        if (!doctor.isPresent() || !doctor.get().getRoles().contains(doctorRole)) {
-            throw new IllegalArgumentException(DoctorErrorMessages.INVALID_DOCTOR_ID);
+    @Override
+    public void saveTemperatureExamination(String patientUsername, Double value) {
+        AppUser patient = userService.findByUsername(patientUsername);
+
+        if (patient == null) {
+            throw new IllegalArgumentException(DoctorErrorMessages.INVALID_PATIENT_USERNAME + ": " + patientUsername);
         }
-        if (!patient.isPresent() || !patient.get().getRoles().contains(patientRole)) {
-            throw new IllegalArgumentException(DoctorErrorMessages.INVALID_PATIENT_ID);
+
+        checkPatientRole(patient);
+
+        TemperatureExamination examination = new TemperatureExamination();
+        examination.setValue(value);
+        examination.setPatient(patient);
+        examination.setDate(LocalDate.now());
+
+        temperatureExaminationRepository.save(examination);
+    }
+
+    @Override
+    public void saveHeartRateExamination(String patientUsername, Integer value) {
+        AppUser patient = userService.findByUsername(patientUsername);
+
+        if (patient == null) {
+            throw new IllegalArgumentException(DoctorErrorMessages.INVALID_PATIENT_USERNAME + ": " + patientUsername);
+        }
+
+        checkPatientRole(patient);
+
+        HeartRateExaminaiton examination = new HeartRateExaminaiton();
+        examination.setValue(value);
+        examination.setPatient(patient);
+        examination.setDate(LocalDate.now());
+
+        heartRateExaminationRepository.save(examination);
+    }
+
+    private void checkPatientRole(AppUser patient) {
+        Role patientRole = roleRepository.findByName(SecurityConstants.ROLE_PATIENT);
+        if (!patient.getRoles().contains(patientRole)) {
+            throw new IllegalArgumentException(DoctorErrorMessages.INVALID_PATIENT_ROLE);
+        }
+    }
+
+    private void checkDoctorRole(AppUser doctor) {
+        Role doctorRole = roleRepository.findByName(SecurityConstants.ROLE_DOCTOR);
+
+        if (!doctor.getRoles().contains(doctorRole)) {
+            throw new IllegalArgumentException(DoctorErrorMessages.INVALID_DOCTOR_ROLE);
         }
     }
 }
