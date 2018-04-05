@@ -6,4 +6,5 @@ import javax.transaction.Transactional;
 
 @Transactional
 public interface TemperatureExaminationRepository extends MedicalExaminationRepository<TemperatureExamination> {
+
 }

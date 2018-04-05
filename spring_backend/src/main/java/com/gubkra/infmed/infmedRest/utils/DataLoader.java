@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by Olaf on 2018-03-11.
@@ -101,8 +102,9 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
         assignPatientToDoctor(patient, appUser);
 
-        addExaminations(patient);
-
+        for(int i = 0; i <= 100; i++) {
+            addExaminations(patient);
+        }
     }
 
     private void assignPatientToDoctor(AppUser patient, AppUser appUser) {
@@ -117,15 +119,21 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     }
 
     private void addExaminations(AppUser patient) {
+        int randomInt = ThreadLocalRandom.current().nextInt(60, 200);
+        int randomDay = ThreadLocalRandom.current().nextInt(1, 28);
+        int randomMonth = ThreadLocalRandom.current().nextInt(1, 12);
+        double randomDouble = ThreadLocalRandom.current().nextDouble(32.0, 49.0);
+        randomDouble = Math.round(randomDouble);
+
         TemperatureExamination temp1 = new TemperatureExamination();
-        temp1.setValue(36.6);
+        temp1.setValue(randomDouble);
         temp1.setPatient(patient);
-        temp1.setDate(LocalDate.now());
+        temp1.setDate(LocalDate.of(2018, randomMonth, randomDay));
         temperatureExaminationRepository.save(temp1);
 
         HeartRateExaminaiton hr1 = new HeartRateExaminaiton();
-        hr1.setValue(120);
-        hr1.setDate(LocalDate.now());
+        hr1.setValue(randomInt);
+        hr1.setDate(LocalDate.of(2018, randomMonth, randomDay));
         hr1.setPatient(patient);
         heartRateExaminationRepository.save(hr1);
     }
