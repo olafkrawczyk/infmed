@@ -87,6 +87,16 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         patient.setSurname("Nowak");
         patient.setPesel("93853712563");
 
+        AppUser patient2 = new AppUser();
+        patient2.setEmailAddress("patient2@example.com");
+        patient2.setPassword("password12345");
+        patient2.setUsername("patient2");
+        patient2.setBirthDate(LocalDate.of(1994, 4, 12));
+        patient2.setPhoneNumber("634 234 345");
+        patient2.setName("Kazik");
+        patient2.setSurname("Nowak");
+        patient2.setPesel("56231245684");
+
         AppUser appUser = new AppUser();
         appUser.setEmailAddress("doctor@example.com");
         appUser.setPassword("password12345");
@@ -99,19 +109,22 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
         addressService.findById((long) 1).ifPresent(appUser::setAddress);
         addressService.findById((long) 2).ifPresent(patient::setAddress);
+        addressService.findById((long) 2).ifPresent(patient2::setAddress);
 
-        assignPatientToDoctor(patient, appUser);
+        assignPatientToDoctor(patient, patient2, appUser);
 
         for(int i = 0; i <= 100; i++) {
+            addExaminations(patient2);
             addExaminations(patient);
         }
     }
 
-    private void assignPatientToDoctor(AppUser patient, AppUser appUser) {
+    private void assignPatientToDoctor(AppUser patient, AppUser patient2, AppUser appUser) {
         try {
             userService.registerDoctor(appUser);
             userService.registerPatient(patient);
-            appUser.setPatients(Arrays.asList(patient));
+            userService.registerPatient(patient2);
+            appUser.setPatients(Arrays.asList(patient, patient2));
             appUserRepository.save(appUser);
         } catch (EmailExists | UserExists emailExists) {
             emailExists.printStackTrace();
