@@ -13,9 +13,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.ThreadLocalRandom;
@@ -68,8 +66,6 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
                 Arrays.asList(addPatient, deletePatient, deleteMedicalRecord, saveMedicalRecord));
         Role patientRole = createRoleIfNotExists(SecurityConstants.ROLE_PATIENT, Arrays.asList(saveMedicalRecord));
 
-        loadAddresses();
-
         loadUsers();
 
         refreshed = true;
@@ -77,6 +73,20 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     }
 
     private void loadUsers() {
+
+        Address address1 = new Address();
+        address1.setCity("Wroclaw");
+        address1.setStreet("Sezamkowa");
+        address1.setHouseNumber("66");
+        address1.setPostalCode("50-363");
+
+        Address address2 = new Address();
+        address2.setCity("Poznań");
+        address2.setStreet("Długa");
+        address2.setHouseNumber("33");
+        address2.setPostalCode("30-402");
+        address2.setApartmentNumber("2");
+
         AppUser patient = new AppUser();
         patient.setEmailAddress("patient@example.com");
         patient.setPassword("password12345");
@@ -107,19 +117,19 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         appUser.setSurname("Kowalski");
         appUser.setPesel("94041243567");
 
-        addressService.findById((long) 1).ifPresent(appUser::setAddress);
-        addressService.findById((long) 2).ifPresent(patient::setAddress);
-        addressService.findById((long) 2).ifPresent(patient2::setAddress);
+        appUser.setAddress(address1);
+        patient.setAddress(address2);
+        patient2.setAddress(address2);
 
-        assignPatientToDoctor(patient, patient2, appUser);
+        assignPatientToDoctorAndSave(patient, patient2, appUser);
 
-        for(int i = 0; i <= 100; i++) {
+        for (int i = 0; i <= 100; i++) {
             addExaminations(patient2);
             addExaminations(patient);
         }
     }
 
-    private void assignPatientToDoctor(AppUser patient, AppUser patient2, AppUser appUser) {
+    private void assignPatientToDoctorAndSave(AppUser patient, AppUser patient2, AppUser appUser) {
         try {
             userService.registerDoctor(appUser);
             userService.registerPatient(patient);
@@ -149,24 +159,6 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         hr1.setDate(LocalDate.of(2018, randomMonth, randomDay));
         hr1.setPatient(patient);
         heartRateExaminationRepository.save(hr1);
-    }
-
-    private void loadAddresses() {
-        Address address1 = new Address();
-        address1.setCity("Wroclaw");
-        address1.setStreet("Sezamkowa");
-        address1.setHouseNumber("66");
-        address1.setPostalCode("50-363");
-
-        Address address2 = new Address();
-        address2.setCity("Poznań");
-        address2.setStreet("Długa");
-        address2.setHouseNumber("33");
-        address2.setPostalCode("30-402");
-        address2.setApartmentNumber("2");
-
-        this.addressService.addItem(address1);
-        this.addressService.addItem(address2);
     }
 
     private Privilege createPrivilegeIfNotExists(String name) {
