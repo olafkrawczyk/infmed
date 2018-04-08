@@ -1,5 +1,6 @@
 package com.gubkra.infmed.infmedRest.controller;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.Streams;
 import com.gubkra.infmed.infmedRest.domain.Address;
 import com.gubkra.infmed.infmedRest.domain.AppUser;
@@ -20,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,9 +40,10 @@ public class UserController {
 
     private ModelMapper modelMapper = new ModelMapper();
 
-    @Secured({"ROLE_DOCTOR"})
+
     @GetMapping(value = "")
-    public List<AppUserDTO> getAll() {
+    public List<AppUserDTO> getAll(Principal principal) {
+        logger.info(principal.getName());
         return Streams.stream(userService.findAll()).map(x -> modelMapper.map(x, AppUserDTO.class)).collect(Collectors.toList());
     }
 
@@ -65,5 +68,4 @@ public class UserController {
         }
         return ResponseEntity.ok("Doctor saved");
     }
-
 }

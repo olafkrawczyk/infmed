@@ -1,9 +1,8 @@
 package com.gubkra.infmed.infmedRest.controller;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.gubkra.infmed.infmedRest.domain.AppUser;
-import com.gubkra.infmed.infmedRest.service.doctor.DoctorErrorMessages;
 import com.gubkra.infmed.infmedRest.service.doctor.DoctorService;
+import com.gubkra.infmed.infmedRest.service.examination.ExaminationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,9 @@ public class DoctorController {
 
     @Autowired
     private DoctorService doctorService;
+
+    @Autowired
+    private ExaminationService examinationService;
 
     private String patient_key = "patient_uuid";
     private String doctor_key = "doctor_uuid";
@@ -77,7 +79,7 @@ public class DoctorController {
         }
 
         try {
-            doctorService.saveTemperatureExamination(patientUsername, temperature);
+            examinationService.saveTemperatureExamination(patientUsername, temperature);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -100,7 +102,7 @@ public class DoctorController {
         }
 
         try {
-            doctorService.saveHeartRateExamination(patientUsername, heartRate);
+            examinationService.saveHeartRateExamination(patientUsername, heartRate);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

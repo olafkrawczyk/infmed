@@ -19,4 +19,6 @@ public interface UserService extends CrudService<AppUser> {
     AppUser registerPatient(AppUser appUser) throws EmailExists, UserExists;
     AppUser registerDoctor(AppUser appUser) throws EmailExists, UserExists;
     Collection<? extends GrantedAuthority> getAuthorities(AppUser user);
+    void checkPatientRole(AppUser patient);
+    void checkDoctorRole(AppUser doctor);
 }

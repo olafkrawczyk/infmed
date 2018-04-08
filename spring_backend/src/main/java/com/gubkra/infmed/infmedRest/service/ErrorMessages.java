@@ -1,6 +1,6 @@
-package com.gubkra.infmed.infmedRest.service.doctor;
+package com.gubkra.infmed.infmedRest.service;
 
-public class DoctorErrorMessages {
+public class ErrorMessages {
     public static final String INVALID_DOCTOR_ID = "Could not find doctor with given UUID";
     public static final String INVALID_DOCTOR_ROLE = "User given as doctor does not have patient doctor privileges";
     public static final String INVALID_PATIENT_ROLE = "User given as patient does not have patient privileges";
