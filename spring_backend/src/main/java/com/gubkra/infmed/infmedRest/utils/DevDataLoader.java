@@ -10,22 +10,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by Olaf on 2018-03-11.
  */
 
+@Profile("dev")
 @Component
-public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
+public class DevDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
-    private static final Logger logger = LoggerFactory.getLogger(DataLoader.class);
+    private static final Logger logger = LoggerFactory.getLogger(DevDataLoader.class);
 
     @Autowired
     private PrivilegeRepository privilegeRepository;
@@ -53,23 +54,10 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
 
         logger.info("Data loader invoked...");
-
         if (refreshed)
             return;
-
-        Privilege addPatient = createPrivilegeIfNotExists(SecurityConstants.ADD_PATIENT_P);
-        Privilege deletePatient = createPrivilegeIfNotExists(SecurityConstants.DELETE_PATIENT_P);
-        Privilege deleteMedicalRecord = createPrivilegeIfNotExists(SecurityConstants.DELETE_RECORD_P);
-        Privilege saveMedicalRecord = createPrivilegeIfNotExists(SecurityConstants.SAVE_RECORD_P);
-
-        Role doctorRole = createRoleIfNotExists(SecurityConstants.ROLE_DOCTOR,
-                Arrays.asList(addPatient, deletePatient, deleteMedicalRecord, saveMedicalRecord));
-        Role patientRole = createRoleIfNotExists(SecurityConstants.ROLE_PATIENT, Arrays.asList(saveMedicalRecord));
-
         loadUsers();
-
         refreshed = true;
-
     }
 
     private void loadUsers() {
@@ -160,26 +148,4 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         hr1.setPatient(patient);
         heartRateExaminationRepository.save(hr1);
     }
-
-    private Privilege createPrivilegeIfNotExists(String name) {
-        Privilege privilege = privilegeRepository.findByName(name);
-        if (privilege == null) {
-            privilege = new Privilege();
-            privilege.setName(name);
-            privilege = privilegeRepository.save(privilege);
-        }
-        return privilege;
-    }
-
-    private Role createRoleIfNotExists(String name, Collection<Privilege> privileges) {
-        Role role = roleRepository.findByName(name);
-        if (role == null) {
-            role = new Role();
-            role.setName(name);
-            role.setPrivileges(privileges);
-            role = roleRepository.save(role);
-        }
-        return role;
-    }
-
 }
