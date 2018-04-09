@@ -1,9 +1,12 @@
 package com.gubkra.infmed.infmedRest.controller;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.Streams;
+import com.gubkra.infmed.infmedRest.domain.Address;
 import com.gubkra.infmed.infmedRest.domain.AppUser;
 import com.gubkra.infmed.infmedRest.domain.dto.AppUserDTO;
 import com.gubkra.infmed.infmedRest.domain.dto.AppUserRegisterDTO;
+import com.gubkra.infmed.infmedRest.service.domain.address.AddressService;
 import com.gubkra.infmed.infmedRest.service.domain.user.UserService;
 import com.gubkra.infmed.infmedRest.service.domain.user.exceptions.EmailExists;
 import com.gubkra.infmed.infmedRest.service.domain.user.exceptions.UserExists;
@@ -18,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,14 +33,18 @@ import java.util.stream.Collectors;
 public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
-    UserService userService;
+    private UserService userService;
+
+    @Autowired
+    private AddressService addressService;
 
     private ModelMapper modelMapper = new ModelMapper();
 
-    @Secured({"ROLE_DOCTOR"})
+
     @GetMapping(value = "")
-    public List<AppUserDTO> getAll() {
-        return Streams.stream(userService.findAll()).map(x -> modelMapper.map(x, AppUserRegisterDTO.class)).collect(Collectors.toList());
+    public List<AppUserDTO> getAll(Principal principal) {
+        logger.info(principal.getName());
+        return Streams.stream(userService.findAll()).map(x -> modelMapper.map(x, AppUserDTO.class)).collect(Collectors.toList());
     }
 
     @PostMapping(value = "/register/patient")
@@ -60,5 +68,4 @@ public class UserController {
         }
         return ResponseEntity.ok("Doctor saved");
     }
-
 }

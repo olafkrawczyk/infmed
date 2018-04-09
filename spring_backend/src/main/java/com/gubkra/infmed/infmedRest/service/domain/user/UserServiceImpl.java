@@ -1,10 +1,13 @@
 package com.gubkra.infmed.infmedRest.service.domain.user;
 
+import com.gubkra.infmed.infmedRest.domain.Address;
 import com.gubkra.infmed.infmedRest.domain.AppUser;
 import com.gubkra.infmed.infmedRest.domain.Role;
 import com.gubkra.infmed.infmedRest.repository.RoleRepository;
 import com.gubkra.infmed.infmedRest.repository.AppUserRepository;
 import com.gubkra.infmed.infmedRest.service.AbstractRepositoryService;
+import com.gubkra.infmed.infmedRest.service.ErrorMessages;
+import com.gubkra.infmed.infmedRest.service.domain.address.AddressService;
 import com.gubkra.infmed.infmedRest.service.domain.user.exceptions.EmailExists;
 import com.gubkra.infmed.infmedRest.service.domain.user.exceptions.UserExists;
 import com.gubkra.infmed.infmedRest.utils.SecurityConstants;
@@ -32,6 +35,9 @@ public class UserServiceImpl extends AbstractRepositoryService<AppUser, UUID> im
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AddressService addressService;
 
     @Autowired
     private void setRepository(AppUserRepository repository) {
@@ -80,6 +86,9 @@ public class UserServiceImpl extends AbstractRepositoryService<AppUser, UUID> im
 
         appUser.setUuid(UUID.randomUUID());
         appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
+
+        Address address = addressService.addItem(appUser.getAddress());
+        appUser.setAddress(address);
     }
 
     private void checkIfEmailExists(AppUser appUser) throws EmailExists {
@@ -106,5 +115,20 @@ public class UserServiceImpl extends AbstractRepositoryService<AppUser, UUID> im
         }
 
         return authorities;
+    }
+
+    public void checkPatientRole(AppUser patient) {
+        Role patientRole = roleRepository.findByName(SecurityConstants.ROLE_PATIENT);
+        if (!patient.getRoles().contains(patientRole)) {
+            throw new IllegalArgumentException(ErrorMessages.INVALID_PATIENT_ROLE);
+        }
+    }
+
+    public void checkDoctorRole(AppUser doctor) {
+        Role doctorRole = roleRepository.findByName(SecurityConstants.ROLE_DOCTOR);
+
+        if (!doctor.getRoles().contains(doctorRole)) {
+            throw new IllegalArgumentException(ErrorMessages.INVALID_DOCTOR_ROLE);
+        }
     }
 }

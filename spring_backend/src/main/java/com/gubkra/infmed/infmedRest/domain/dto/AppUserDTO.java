@@ -1,5 +1,6 @@
 package com.gubkra.infmed.infmedRest.domain.dto;
 
+import com.gubkra.infmed.infmedRest.domain.Address;
 import lombok.Data;
 
 import javax.validation.constraints.Min;
@@ -34,4 +35,6 @@ public class AppUserDTO {
    @NotNull
    @Size(min = 6, message = "username must be at least 6 characters long")
    private String username;
+
+   private Address address;
 }
