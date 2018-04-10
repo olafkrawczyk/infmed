@@ -25,19 +25,23 @@ import java.security.Principal;
 @RestController
 @RequestMapping(value = "/patient")
 public class PatientController {
-    @Autowired
-    private TemperatureExaminationRepository temperatureExaminationRepository;
+    private final TemperatureExaminationRepository temperatureExaminationRepository;
 
-    @Autowired
-    private HeartRateExaminationRepository heartRateExaminationRepository;
+    private final HeartRateExaminationRepository heartRateExaminationRepository;
 
-    @Autowired
-    private AppUserRepository appUserRepository;
+    private final AppUserRepository appUserRepository;
 
-    @Autowired
-    private ExaminationService examinationService;
+    private final ExaminationService examinationService;
 
     private ModelMapper modelMapper = new ModelMapper();
+
+    @Autowired
+    public PatientController(TemperatureExaminationRepository temperatureExaminationRepository, HeartRateExaminationRepository heartRateExaminationRepository, AppUserRepository appUserRepository, ExaminationService examinationService) {
+        this.temperatureExaminationRepository = temperatureExaminationRepository;
+        this.heartRateExaminationRepository = heartRateExaminationRepository;
+        this.appUserRepository = appUserRepository;
+        this.examinationService = examinationService;
+    }
 
     @GetMapping(value = "/examination/{patientUsername}/temperature")
     public Page<TemperatureExaminationDTO> listTemperatureExamination(Pageable pageable, @PathVariable("patientUsername") String username){
@@ -56,7 +60,7 @@ public class PatientController {
     @Secured("ROLE_PATIENT")
     @PostMapping(value = "/examination/heart-rate")
     public ResponseEntity saveHeartRateExamination(Principal principal, @RequestBody HeartRateExaminationDTO request) {
-        HeartRateExaminaiton heartRate = modelMapper.map(request, HeartRateExaminaiton.class);;
+        HeartRateExaminaiton heartRate = modelMapper.map(request, HeartRateExaminaiton.class);
 
         if (request.getValue() == null || request.getRawData() == null) {
             return ResponseEntity.badRequest().body("Could not find value or rawData field in request");
