@@ -9,4 +9,5 @@ public class HeartRateExaminationDTO {
     private Long id;
     private LocalDate date;
     private Integer value;
+    private Integer[] rawData;
 }

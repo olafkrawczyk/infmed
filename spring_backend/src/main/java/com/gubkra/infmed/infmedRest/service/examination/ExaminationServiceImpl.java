@@ -42,7 +42,7 @@ public class ExaminationServiceImpl implements ExaminationService{
     }
 
     @Override
-    public void saveHeartRateExamination(String patientUsername, Integer value) {
+    public void saveHeartRateExamination(String patientUsername, HeartRateExaminaiton examination) {
         AppUser patient = userService.findByUsername(patientUsername);
 
         if (patient == null) {
@@ -51,8 +51,6 @@ public class ExaminationServiceImpl implements ExaminationService{
 
         userService.checkPatientRole(patient);
 
-        HeartRateExaminaiton examination = new HeartRateExaminaiton();
-        examination.setValue(value);
         examination.setPatient(patient);
         examination.setDate(LocalDate.now());
 

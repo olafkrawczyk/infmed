@@ -10,6 +10,7 @@ import com.gubkra.infmed.infmedRest.repository.AppUserRepository;
 import com.gubkra.infmed.infmedRest.repository.HeartRateExaminationRepository;
 import com.gubkra.infmed.infmedRest.repository.TemperatureExaminationRepository;
 import com.gubkra.infmed.infmedRest.service.examination.ExaminationService;
+import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -54,17 +55,11 @@ public class PatientController {
 
     @Secured("ROLE_PATIENT")
     @PostMapping(value = "/examination/heart-rate")
-    public ResponseEntity saveHeartRateExamination(Principal principal, @RequestBody ObjectNode request) {
-        Integer heartRate;
+    public ResponseEntity saveHeartRateExamination(Principal principal, @RequestBody HeartRateExaminationDTO request) {
+        HeartRateExaminaiton heartRate = modelMapper.map(request, HeartRateExaminaiton.class);;
 
-        if (!request.hasNonNull("value")) {
-            return ResponseEntity.badRequest().body("Could not find value field in request");
-        }
-
-        try {
-            heartRate = Integer.valueOf(request.get("value").asText());
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body("Invalid value: " + request.get("value").asText() + ". Could not convert to Integer");
+        if (request.getValue() == null || request.getRawData() == null) {
+            return ResponseEntity.badRequest().body("Could not find value or rawData field in request");
         }
 
         try {
@@ -76,6 +71,7 @@ public class PatientController {
         return ResponseEntity.ok("Examination saved");
     }
 
+    @ApiOperation(value = "Add temperature examination", notes = "Gets { value: 36.6 }")
     @Secured("ROLE_PATIENT")
     @PostMapping(value = "/examination/temperature")
     public ResponseEntity saveTemperatureExamination(Principal principal, @RequestBody ObjectNode request) {
