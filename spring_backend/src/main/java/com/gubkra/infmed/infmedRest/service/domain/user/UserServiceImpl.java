@@ -30,14 +30,18 @@ import java.util.*;
 public class UserServiceImpl extends AbstractRepositoryService<AppUser, UUID> implements UserService {
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
+
+    private final PasswordEncoder passwordEncoder;
+
+    private final AddressService addressService;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private AddressService addressService;
+    public UserServiceImpl(RoleRepository roleRepository, PasswordEncoder passwordEncoder, AddressService addressService) {
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.addressService = addressService;
+    }
 
     @Autowired
     private void setRepository(AppUserRepository repository) {

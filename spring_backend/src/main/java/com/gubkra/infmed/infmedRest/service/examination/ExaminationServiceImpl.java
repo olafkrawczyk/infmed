@@ -16,12 +16,16 @@ import java.time.LocalDate;
 @Service
 public class ExaminationServiceImpl implements ExaminationService{
 
+    private final UserService userService;
+    private final TemperatureExaminationRepository temperatureExaminationRepository;
+    private final HeartRateExaminationRepository heartRateExaminationRepository;
+
     @Autowired
-    private UserService userService;
-    @Autowired
-    private TemperatureExaminationRepository temperatureExaminationRepository;
-    @Autowired
-    private HeartRateExaminationRepository heartRateExaminationRepository;
+    public ExaminationServiceImpl(UserService userService, TemperatureExaminationRepository temperatureExaminationRepository, HeartRateExaminationRepository heartRateExaminationRepository) {
+        this.userService = userService;
+        this.temperatureExaminationRepository = temperatureExaminationRepository;
+        this.heartRateExaminationRepository = heartRateExaminationRepository;
+    }
 
     @Override
     public void saveTemperatureExamination(String patientUsername, Double value) {

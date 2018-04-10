@@ -18,17 +18,12 @@ import java.util.UUID;
 public class DoctorServiceImpl implements DoctorService {
     private static final Logger logger = LoggerFactory.getLogger(DoctorServiceImpl.class);
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private TemperatureExaminationRepository temperatureExaminationRepository;
-
-    @Autowired
-    private HeartRateExaminationRepository heartRateExaminationRepository;
+    public DoctorServiceImpl(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public void registerPatient(UUID doctor_uuid, UUID patient_uuid) throws IllegalArgumentException {

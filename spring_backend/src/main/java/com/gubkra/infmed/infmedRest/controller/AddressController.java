@@ -15,8 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/address")
 public class AddressController {
 
+    private final AddressService addressService;
+
     @Autowired
-    private AddressService addressService;
+    public AddressController(AddressService addressService) {
+        this.addressService = addressService;
+    }
 
     @GetMapping(value = "/all")
     public Iterable<Address> getAll() {

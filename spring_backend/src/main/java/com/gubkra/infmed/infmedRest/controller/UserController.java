@@ -32,13 +32,17 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/user")
 public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private AddressService addressService;
+    private final AddressService addressService;
 
     private ModelMapper modelMapper = new ModelMapper();
+
+    @Autowired
+    public UserController(UserService userService, AddressService addressService) {
+        this.userService = userService;
+        this.addressService = addressService;
+    }
 
 
     @GetMapping(value = "")

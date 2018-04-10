@@ -22,16 +22,20 @@ import java.util.UUID;
 public class DoctorController {
     private static final Logger logger = LoggerFactory.getLogger(DoctorController.class);
 
-    @Autowired
-    private DoctorService doctorService;
+    private final DoctorService doctorService;
 
-    @Autowired
-    private ExaminationService examinationService;
+    private final ExaminationService examinationService;
 
     private String patient_key = "patient_uuid";
     private String doctor_key = "doctor_uuid";
 
     private ModelMapper modelMapper = new ModelMapper();
+
+    @Autowired
+    public DoctorController(DoctorService doctorService, ExaminationService examinationService) {
+        this.doctorService = doctorService;
+        this.examinationService = examinationService;
+    }
 
 
     @ApiOperation(value = "Assign patient to doctor", notes = "{ doctor_uuid : ..., patient_uuid : ...}")
