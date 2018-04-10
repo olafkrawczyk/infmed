@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -22,7 +23,9 @@ import java.util.concurrent.ThreadLocalRandom;
  * Created by Olaf on 2018-03-11.
  */
 
+
 @Profile("dev")
+@Order(2)
 @Component
 public class DevDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -146,6 +149,7 @@ public class DevDataLoader implements ApplicationListener<ContextRefreshedEvent>
         hr1.setValue(randomInt);
         hr1.setDate(LocalDate.of(2018, randomMonth, randomDay));
         hr1.setPatient(patient);
+        hr1.setRawData(new Integer[1500]);
         heartRateExaminationRepository.save(hr1);
     }
 }

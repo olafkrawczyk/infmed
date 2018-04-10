@@ -1,8 +1,11 @@
 package com.gubkra.infmed.infmedRest.controller;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.gubkra.infmed.infmedRest.domain.HeartRateExaminaiton;
+import com.gubkra.infmed.infmedRest.domain.dto.HeartRateExaminationDTO;
 import com.gubkra.infmed.infmedRest.service.doctor.DoctorService;
 import com.gubkra.infmed.infmedRest.service.examination.ExaminationService;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,9 @@ public class DoctorController {
 
     private String patient_key = "patient_uuid";
     private String doctor_key = "doctor_uuid";
+
+    private ModelMapper modelMapper = new ModelMapper();
+
 
     @PostMapping(value = "/patient")
     public ResponseEntity registerPatient(@RequestBody ObjectNode request) {
@@ -88,17 +94,11 @@ public class DoctorController {
     }
 
     @PostMapping(value = "/examination/{patientUsername}/heart-rate")
-    public ResponseEntity saveHeartRateExamination(@PathVariable String patientUsername, @RequestBody ObjectNode request) {
-        Integer heartRate;
+    public ResponseEntity saveHeartRateExamination(@PathVariable String patientUsername, @RequestBody HeartRateExaminationDTO request) {
+        HeartRateExaminaiton heartRate = modelMapper.map(request, HeartRateExaminaiton.class);
 
-        if (!request.hasNonNull("value")) {
-            return ResponseEntity.badRequest().body("Could not find value field in request");
-        }
-
-        try {
-            heartRate = Integer.valueOf(request.get("value").asText());
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body("Invalid value: " + request.get("value").asText() + ". Could not convert to Integer");
+        if (request.getValue() == null || request.getRawData() == null) {
+            return ResponseEntity.badRequest().body("Could not find value or rawData field in request");
         }
 
         try {
