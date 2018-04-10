@@ -10,6 +10,7 @@ import com.gubkra.infmed.infmedRest.repository.AppUserRepository;
 import com.gubkra.infmed.infmedRest.repository.HeartRateExaminationRepository;
 import com.gubkra.infmed.infmedRest.repository.TemperatureExaminationRepository;
 import com.gubkra.infmed.infmedRest.service.examination.ExaminationService;
+import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -70,6 +71,7 @@ public class PatientController {
         return ResponseEntity.ok("Examination saved");
     }
 
+    @ApiOperation(value = "Add temperature examination", notes = "Gets { value: 36.6 }")
     @Secured("ROLE_PATIENT")
     @PostMapping(value = "/examination/temperature")
     public ResponseEntity saveTemperatureExamination(Principal principal, @RequestBody ObjectNode request) {

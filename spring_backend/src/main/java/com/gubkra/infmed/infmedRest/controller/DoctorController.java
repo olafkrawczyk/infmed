@@ -5,6 +5,7 @@ import com.gubkra.infmed.infmedRest.domain.HeartRateExaminaiton;
 import com.gubkra.infmed.infmedRest.domain.dto.HeartRateExaminationDTO;
 import com.gubkra.infmed.infmedRest.service.doctor.DoctorService;
 import com.gubkra.infmed.infmedRest.service.examination.ExaminationService;
+import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +34,7 @@ public class DoctorController {
     private ModelMapper modelMapper = new ModelMapper();
 
 
+    @ApiOperation(value = "Assign patient to doctor", notes = "{ doctor_uuid : ..., patient_uuid : ...}")
     @PostMapping(value = "/patient")
     public ResponseEntity registerPatient(@RequestBody ObjectNode request) {
 
@@ -52,6 +54,7 @@ public class DoctorController {
     }
 
 
+    @ApiOperation(value = "Remove patient from doctor", notes = "{ doctor_uuid : ..., patient_uuid : ...}")
     @DeleteMapping(value = "/patient")
     public ResponseEntity removePatient(@RequestBody ObjectNode request) {
 
