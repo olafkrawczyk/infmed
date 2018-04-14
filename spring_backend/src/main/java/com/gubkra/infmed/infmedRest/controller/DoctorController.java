@@ -77,7 +77,7 @@ public class DoctorController {
         return ResponseEntity.ok("Patient successfully removed from doctor.");
     }
 
-    @PostMapping(value = "/examination/{patientUsername}/temperature")
+    @PostMapping(value = "/examination/{patientUsername:.+}/temperature")
     public ResponseEntity saveTemperatureExamination(@PathVariable String patientUsername, @RequestBody ObjectNode request) {
         Double temperature;
         
@@ -100,7 +100,7 @@ public class DoctorController {
         return ResponseEntity.ok("Examination saved");
     }
 
-    @PostMapping(value = "/examination/{patientUsername}/heart-rate")
+    @PostMapping(value = "/examination/{patientUsername:.+}/heart-rate")
     public ResponseEntity saveHeartRateExamination(@PathVariable String patientUsername, @RequestBody HeartRateExaminationDTO request) {
         HeartRateExaminaiton heartRate = modelMapper.map(request, HeartRateExaminaiton.class);
 

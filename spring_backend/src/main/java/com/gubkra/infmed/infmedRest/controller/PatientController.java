@@ -45,7 +45,7 @@ public class PatientController {
     }
 
     @Transactional
-    @GetMapping(value = "/examination/{patientUsername}/temperature")
+    @GetMapping(value = "/examination/{patientUsername:.+}/temperature")
     public Page<TemperatureExaminationDTO> listTemperatureExamination(Pageable pageable, @PathVariable("patientUsername") String username){
         AppUser patient = this.appUserRepository.findByUsername(username);
         Page<TemperatureExamination> pg = temperatureExaminationRepository.findAllByPatient(patient, pageable);
@@ -53,7 +53,7 @@ public class PatientController {
     }
 
     @Transactional
-    @GetMapping(value = "/examination/{patientUsername}/heart-rate")
+    @GetMapping(value = "/examination/{patientUsername:.+}/heart-rate")
     public Page<HeartRateExaminationDTO> listHeartRateExamination(Pageable pageable, @PathVariable("patientUsername") String username){
         AppUser patient = this.appUserRepository.findByUsername(username);
         Page<HeartRateExaminaiton> pg = heartRateExaminationRepository.findAllByPatient(patient, pageable);
