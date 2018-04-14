@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -43,6 +44,7 @@ public class PatientController {
         this.examinationService = examinationService;
     }
 
+    @Transactional
     @GetMapping(value = "/examination/{patientUsername}/temperature")
     public Page<TemperatureExaminationDTO> listTemperatureExamination(Pageable pageable, @PathVariable("patientUsername") String username){
         AppUser patient = this.appUserRepository.findByUsername(username);
@@ -50,6 +52,7 @@ public class PatientController {
         return pg.map((te) -> modelMapper.map(te, TemperatureExaminationDTO.class));
     }
 
+    @Transactional
     @GetMapping(value = "/examination/{patientUsername}/heart-rate")
     public Page<HeartRateExaminationDTO> listHeartRateExamination(Pageable pageable, @PathVariable("patientUsername") String username){
         AppUser patient = this.appUserRepository.findByUsername(username);

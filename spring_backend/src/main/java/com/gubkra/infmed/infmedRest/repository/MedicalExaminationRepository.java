@@ -6,11 +6,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
 @NoRepositoryBean
 public interface MedicalExaminationRepository<T extends MedicalExamination> extends PagingAndSortingRepository<T, Long> {
+    @Transactional
     Collection<T> findByPatient_Username(String username);
+    @Transactional
     Page<T> findAllByPatient(AppUser patient, Pageable pageable);
 }
