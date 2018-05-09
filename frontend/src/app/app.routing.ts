@@ -9,6 +9,7 @@ import { MapsComponent }   from './maps/maps.component';
 import { NotificationsComponent }   from './notifications/notifications.component';
 import { UpgradeComponent }   from './upgrade/upgrade.component';
 import { ExaminationsComponent } from './examinations/examinations.component';
+import { RegisterComponent } from './register/register.component';
 
 export const AppRoutes: Routes = [
     {
@@ -47,5 +48,9 @@ export const AppRoutes: Routes = [
     {
         path: 'examinations',
         component: ExaminationsComponent
+    },
+    {
+        path: 'register',
+        component: RegisterComponent
     }
 ]

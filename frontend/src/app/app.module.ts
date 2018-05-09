@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { AppRoutes } from './app.routing';
@@ -22,6 +23,7 @@ import { PulseComponent } from './examinations/pulse/pulse.component';
 import { TemperatureComponent } from './examinations/temperature/temperature.component';
 import { ExaminationsComponent } from './examinations/examinations.component';
 import { DateFormComponent } from './examinations/date-form/date-form.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { DateFormComponent } from './examinations/date-form/date-form.component'
     PulseComponent,
     TemperatureComponent,
     ExaminationsComponent,
-    DateFormComponent
+    DateFormComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -46,6 +49,7 @@ import { DateFormComponent } from './examinations/date-form/date-form.component'
     NavbarModule,
     FooterModule,
     FixedPluginModule,
+    ReactiveFormsModule,
     NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=YOUR_KEY_HERE'})
 
   ],

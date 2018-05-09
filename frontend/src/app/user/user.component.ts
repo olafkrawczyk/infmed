@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'user-cmp',
@@ -7,6 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class UserComponent implements OnInit{
+
+    userForm : FormGroup = new FormGroup({});
+
     ngOnInit(){
     }
 }

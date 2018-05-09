@@ -1,0 +1,142 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-10 col-md-10 col-lg-offset-1 col-md-offset-1">
+      <div class="card">
+        <div class="header">
+          <h4 class="title">Register new account</h4>
+        </div>
+        <div class="content">
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Username</label>
+                  <input type="text" class="form-control border-input" formControlName="username">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>First Name</label>
+                  <input type="text" class="form-control border-input" formControlName="name">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Last Name</label>
+                  <input type="text" class="form-control border-input" formControlName="surname">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Phone number</label>
+                  <input type="text" class="form-control border-input" formControlName="phoneNumber">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>PESEL</label>
+                  <input type="text" class="form-control border-input" formControlName="pesel">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Birth date</label>
+                  <input type="date" class="form-control border-input" formControlName="birthDate">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="emailAddress">Email address</label>
+                  <input id="emailAddress" type="email" class="form-control border-input" formControlName="emailAddress">
+                </div>
+              </div>
+            </div>
+
+            <div formGroupName="address">
+
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>City</label>
+                    <input type="text" class="form-control border-input" formControlName="city">
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Postal Code</label>
+                    <input type="text" class="form-control border-input" formControlName="postalCode">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Street</label>
+                    <input type="text" class="form-control border-input" formControlName="street">
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>House number</label>
+                    <input type="text" class="form-control border-input" formControlName="houseNumber">
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Apartment number</label>
+                    <input type="number" class="form-control border-input" formControlName="apartmentNumber">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Password</label>
+                  <input type="password" class="form-control border-input" formControlName="password">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Confirm password</label>
+                  <input type="password" class="form-control border-input" formControlName="matchingPassword">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-5 col-lg-3">
+                <div class="form-group">
+                  <div class="radio">
+                    <input type="radio" id="patientAccount" name="accountType" value="patient" formControlName="accountType">
+                    <label for="patientAccount">Patient account</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-5 col-lg-3">
+                <div class="form-group">
+                  <div class="radio">
+                    <input type="radio" id="doctorAccount" name="accountType" value="doctor" formControlName="accountType">
+                    <label for="doctorAccount">Doctor account</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-info btn-fill btn-wd">Create account</button>
+            </div>
+            <div class="clearfix"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
