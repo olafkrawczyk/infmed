@@ -49,3 +49,4 @@ nbdist/
 
 frontend/node_modules/*
 */package-lock.js
+frontend/package-lock.json

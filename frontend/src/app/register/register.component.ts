@@ -11,10 +11,12 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
 
   constructor() {
-    this.createForm();
+    
   }
 
   ngOnInit() {
+    this.createForm();
+    console.log(this.registerForm);
   }
 
   createForm() {
@@ -43,7 +45,6 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {
     console.log(this.registerForm);
-    console.log("elo");
   }
 
 }

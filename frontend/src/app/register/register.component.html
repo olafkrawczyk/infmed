@@ -9,51 +9,72 @@
           <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
             <div class="row">
               <div class="col-md-4">
-                <div class="form-group">
+                <div class="form-group" [ngClass]="{'has-errors': registerForm.controls.username.invalid && 
+                    registerForm.controls.username.touched}">
                   <label>Username</label>
                   <input type="text" class="form-control border-input" formControlName="username">
+                  <span class="text-warning" *ngIf="registerForm.controls.username.invalid && 
+                    registerForm.controls.username.touched">This field is required.</span>
                 </div>
               </div>
               <div class="col-md-4">
-                <div class="form-group">
+                <div class="form-group" [ngClass]="{'has-errors': registerForm.controls.name.invalid && 
+                    registerForm.controls.name.touched}">
                   <label>First Name</label>
                   <input type="text" class="form-control border-input" formControlName="name">
+                  <span class="text-warning" *ngIf="registerForm.controls.name.invalid && 
+                    registerForm.controls.name.touched">This field is required.</span>
                 </div>
               </div>
               <div class="col-md-4">
-                <div class="form-group">
+                <div class="form-group" [ngClass]="{'has-errors': registerForm.controls.surname.invalid && 
+                    registerForm.controls.surname.touched}">
                   <label>Last Name</label>
                   <input type="text" class="form-control border-input" formControlName="surname">
+                  <span class="text-warning" *ngIf="registerForm.controls.surname.invalid && 
+                    registerForm.controls.surname.touched">This field is required.</span>
                 </div>
               </div>
             </div>
 
             <div class="row">
               <div class="col-md-4">
-                <div class="form-group">
+                <div class="form-group" [ngClass]="{'has-errors': registerForm.controls.phoneNumber.invalid && 
+                    registerForm.controls.phoneNumber.touched}">
                   <label>Phone number</label>
                   <input type="text" class="form-control border-input" formControlName="phoneNumber">
+                  <span class="text-warning" *ngIf="registerForm.controls.phoneNumber.invalid && 
+                    registerForm.controls.phoneNumber.touched">This field is required.</span>
                 </div>
               </div>
               <div class="col-md-4">
-                <div class="form-group">
+                <div class="form-group" [ngClass]="{'has-errors': registerForm.controls.pesel.invalid && 
+                    registerForm.controls.pesel.touched}">
                   <label>PESEL</label>
                   <input type="text" class="form-control border-input" formControlName="pesel">
+                  <span class="text-warning" *ngIf="registerForm.controls.pesel.invalid && 
+                    registerForm.controls.pesel.touched">This field is required.</span>
                 </div>
               </div>
               <div class="col-md-4">
-                <div class="form-group">
+                <div class="form-group" [ngClass]="{'has-errors': registerForm.controls.birthDate.invalid && 
+                    registerForm.controls.birthDate.touched}">
                   <label>Birth date</label>
                   <input type="date" class="form-control border-input" formControlName="birthDate">
+                  <span class="text-warning" *ngIf="registerForm.controls.birthDate.invalid && 
+                    registerForm.controls.birthDate.touched">This field is required.</span>
                 </div>
               </div>
             </div>
 
             <div class="row">
               <div class="col-md-4">
-                <div class="form-group">
+                <div class="form-group" [ngClass]="{'has-errors': registerForm.controls.emailAddress.invalid && 
+                    registerForm.controls.emailAddress.touched}">
                   <label for="emailAddress">Email address</label>
                   <input id="emailAddress" type="email" class="form-control border-input" formControlName="emailAddress">
+                  <span class="text-warning" *ngIf="registerForm.controls.emailAddress.invalid && 
+                    registerForm.controls.emailAddress.touched">This field is required.</span>
                 </div>
               </div>
             </div>
@@ -62,36 +83,48 @@
 
               <div class="row">
                 <div class="col-md-4">
-                  <div class="form-group">
+                  <div class="form-group" [ngClass]="{'has-errors': registerForm.controls.address.controls.city.invalid && 
+                    registerForm.controls.address.controls.city.touched}">
                     <label>City</label>
                     <input type="text" class="form-control border-input" formControlName="city">
+                    <span class="text-warning" *ngIf="registerForm.controls.address.controls.city.invalid && 
+                    registerForm.controls.address.controls.city.touched">This field is required.</span>
                   </div>
                 </div>
                 <div class="col-md-4">
-                  <div class="form-group">
+                  <div class="form-group" [ngClass]="{'has-errors': registerForm.controls.address.controls.postalCode.invalid && 
+                    registerForm.controls.address.controls.postalCode.touched}">
                     <label>Postal Code</label>
                     <input type="text" class="form-control border-input" formControlName="postalCode">
+                    <span class="text-warning" *ngIf="registerForm.controls.address.controls.postalCode.invalid && 
+                    registerForm.controls.address.controls.postalCode.touched">This field is required.</span>
                   </div>
                 </div>
               </div>
 
               <div class="row">
                 <div class="col-md-4">
-                  <div class="form-group">
+                  <div class="form-group" [ngClass]="{'has-errors': registerForm.controls.address.controls.street.invalid && 
+                    registerForm.controls.address.controls.street.touched}">
                     <label>Street</label>
                     <input type="text" class="form-control border-input" formControlName="street">
+                    <span class="text-warning" *ngIf="registerForm.controls.address.controls.street.invalid && 
+                    registerForm.controls.address.controls.street.touched">This field is required.</span>
                   </div>
                 </div>
                 <div class="col-md-4">
-                  <div class="form-group">
+                  <div class="form-group" [ngClass]="{'has-errors': registerForm.controls.address.controls.houseNumber.invalid && 
+                    registerForm.controls.address.controls.houseNumber.touched}">
                     <label>House number</label>
                     <input type="text" class="form-control border-input" formControlName="houseNumber">
+                    <span class="text-warning" *ngIf="registerForm.controls.address.controls.houseNumber.invalid && 
+                    registerForm.controls.address.controls.houseNumber.touched">This field is required.</span>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
                     <label>Apartment number</label>
-                    <input type="number" class="form-control border-input" formControlName="apartmentNumber">
+                    <input type="text" class="form-control border-input" formControlName="apartmentNumber">
                   </div>
                 </div>
               </div>
@@ -100,16 +133,30 @@
 
             <div class="row">
               <div class="col-md-6">
-                <div class="form-group">
+                <div class="form-group" [ngClass]="{'has-errors': registerForm.controls.password.invalid && 
+                    registerForm.controls.password.touched}">
                   <label>Password</label>
                   <input type="password" class="form-control border-input" formControlName="password">
+                  <span class="text-warning" *ngIf="registerForm.controls.password.invalid && 
+                    registerForm.controls.password.touched">This field is required.</span>
                 </div>
               </div>
               <div class="col-md-6">
-                <div class="form-group">
+                <div class="form-group" [ngClass]="{'has-errors': registerForm.controls.matchingPassword.invalid && 
+                    registerForm.controls.matchingPassword.touched}">
                   <label>Confirm password</label>
                   <input type="password" class="form-control border-input" formControlName="matchingPassword">
+                  <span class="text-warning" *ngIf="registerForm.controls.matchingPassword.invalid && 
+                    registerForm.controls.matchingPassword.touched">This field is required.</span>
                 </div>
+              </div>
+              <div class="col-md-12">
+                <span class="text-warning" 
+                *ngIf="(registerForm.controls.password.touched && 
+                      registerForm.controls.matchingPassword.touched) &&
+                      registerForm.controls.password.value != registerForm.controls.matchingPassword.value">
+                      Passwords do not match.
+                </span>
               </div>
             </div>
             <div class="row">
@@ -131,7 +178,7 @@
               </div>
             </div>
             <div class="text-center">
-              <button type="submit" class="btn btn-info btn-fill btn-wd">Create account</button>
+              <button [disabled]="registerForm.invalid" type="submit" class="btn btn-info btn-fill btn-wd">Create account</button>
             </div>
             <div class="clearfix"></div>
           </form>
