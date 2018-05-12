@@ -27,6 +27,7 @@ import { DateFormComponent } from './examinations/date-form/date-form.component'
 import { RegisterComponent } from './register/register.component';
 
 import { PatientService } from './services/patient.service';
+import { AuthenticateComponent } from './authenticate/authenticate.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { PatientService } from './services/patient.service';
     TemperatureComponent,
     ExaminationsComponent,
     DateFormComponent,
-    RegisterComponent
+    RegisterComponent,
+    AuthenticateComponent
   ],
   imports: [
     BrowserModule,

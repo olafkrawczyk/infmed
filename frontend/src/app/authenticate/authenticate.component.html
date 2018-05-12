@@ -1,0 +1,45 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-10 col-md-10 col-lg-offset-1 col-md-offset-1">
+      <div class="card">
+        <div class="header">
+          <h4 class="title">Sign in</h4>
+        </div>
+        <div class="content">
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group" [ngClass]="{'has-errors': loginForm.controls.username.invalid && 
+                    loginForm.controls.username.touched}">
+                  <label>Username</label>
+                  <input type="text" class="form-control border-input" formControlName="username">
+                  <span class="text-warning" *ngIf="loginForm.controls.username.invalid && 
+                    loginForm.controls.username.touched">This field is required.</span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group" [ngClass]="{'has-errors': loginForm.controls.password.invalid && 
+                    loginForm.controls.password.touched}">
+                  <label>Password</label>
+                  <input type="password" class="form-control border-input" formControlName="password">
+                  <span class="text-warning" *ngIf="loginForm.controls.password.invalid && 
+                    loginForm.controls.password.touched">This field is required.</span>
+                </div>
+              </div>
+            </div>
+
+            <div>{{responseMessage}}</div>
+            <div class="text-center">
+              <button [disabled]="loginForm.invalid" 
+                type="submit" 
+                class="btn btn-info btn-fill btn-wd">
+                Login
+              </button>
+            </div>
+            <div class="clearfix"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

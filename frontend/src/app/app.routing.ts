@@ -10,6 +10,7 @@ import { NotificationsComponent }   from './notifications/notifications.componen
 import { UpgradeComponent }   from './upgrade/upgrade.component';
 import { ExaminationsComponent } from './examinations/examinations.component';
 import { RegisterComponent } from './register/register.component';
+import { AuthenticateComponent } from './authenticate/authenticate.component';
 
 export const AppRoutes: Routes = [
     {
@@ -52,5 +53,9 @@ export const AppRoutes: Routes = [
     {
         path: 'register',
         component: RegisterComponent
+    },
+    {
+        path: 'login',
+        component: AuthenticateComponent
     }
 ]
