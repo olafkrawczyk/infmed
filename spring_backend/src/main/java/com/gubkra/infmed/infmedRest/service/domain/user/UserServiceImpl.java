@@ -114,7 +114,7 @@ public class UserServiceImpl extends AbstractRepositoryService<AppUser, UUID> im
     private void checkIfUserExists(AppUser appUser) throws UserExists {
         AppUser repositoryAppUser = ((AppUserRepository)this.repository).findByUsername(appUser.getUsername());
         if (repositoryAppUser != null) {
-            throw new UserExists("AppUser already exists: " + appUser.getUsername());
+            throw new UserExists("User already exists: " + appUser.getUsername());
         }
     }
 

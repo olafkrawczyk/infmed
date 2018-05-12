@@ -2,6 +2,8 @@ package com.gubkra.infmed.infmedRest.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gubkra.infmed.infmedRest.domain.AppUser;
+import com.gubkra.infmed.infmedRest.domain.Role;
+import com.gubkra.infmed.infmedRest.service.domain.user.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.gubkra.infmed.infmedRest.security.SecurityConstants.*;
 
@@ -24,9 +28,11 @@ import static com.gubkra.infmed.infmedRest.security.SecurityConstants.*;
 public class JWTAuthenticationFillter extends UsernamePasswordAuthenticationFilter {
 
     private AuthenticationManager authenticationManager;
+    private UserService userService;
 
-    public JWTAuthenticationFillter(AuthenticationManager authenticationManager) {
+    public JWTAuthenticationFillter(AuthenticationManager authenticationManager, UserService userService) {
         this.authenticationManager = authenticationManager;
+        this.userService = userService;
     }
 
     @Override
@@ -45,7 +51,14 @@ public class JWTAuthenticationFillter extends UsernamePasswordAuthenticationFilt
     @Override
     public void successfulAuthentication(HttpServletRequest req, HttpServletResponse resp, FilterChain chain,
                                          Authentication auth) throws IOException {
-        String token = Jwts.builder().setSubject(((User) auth.getPrincipal()).getUsername())
+
+        AppUser appUser = userService.findByUsername(((User) auth.getPrincipal()).getUsername());
+        Map<String, Object> roles = new HashMap<String, Object>();
+        roles.put("role", ((Role)appUser.getRoles().toArray()[0]).getName());
+        roles.put("sub", (((User) auth.getPrincipal()).getUsername()));
+
+        String token = Jwts.builder()
+                .setClaims(roles)
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SECRET.getBytes())
                 .compact();

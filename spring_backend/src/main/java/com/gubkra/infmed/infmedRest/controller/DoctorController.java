@@ -5,6 +5,7 @@ import com.gubkra.infmed.infmedRest.domain.HeartRateExaminaiton;
 import com.gubkra.infmed.infmedRest.domain.dto.HeartRateExaminationDTO;
 import com.gubkra.infmed.infmedRest.service.doctor.DoctorService;
 import com.gubkra.infmed.infmedRest.service.examination.ExaminationService;
+import com.gubkra.infmed.infmedRest.utils.ResponseMessageWrapper;
 import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -43,7 +44,7 @@ public class DoctorController {
     public ResponseEntity registerPatient(@RequestBody ObjectNode request) {
 
         if (!request.hasNonNull(doctor_key) || !request.hasNonNull(patient_key)) {
-            return ResponseEntity.badRequest().body("Invalid request. doctor_uuid or patient_uuid is empty");
+            return ResponseEntity.badRequest().body(new ResponseMessageWrapper("Invalid request. doctor_uuid or patient_uuid is empty"));
         }
 
         try {
@@ -51,10 +52,10 @@ public class DoctorController {
             UUID patient_uuid = getUUID(request, patient_key);
             doctorService.registerPatient(doctor_uuid, patient_uuid);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(new ResponseMessageWrapper(e.getMessage()));
         }
 
-        return ResponseEntity.ok("Patient successfully registered.");
+        return ResponseEntity.ok(new ResponseMessageWrapper("Patient successfully registered."));
     }
 
 
@@ -63,7 +64,7 @@ public class DoctorController {
     public ResponseEntity removePatient(@RequestBody ObjectNode request) {
 
         if (!request.hasNonNull(doctor_key) || !request.hasNonNull(patient_key)) {
-            return ResponseEntity.badRequest().body("Invalid request. doctor_uuid or patient_uuid is empty");
+            return ResponseEntity.badRequest().body(new ResponseMessageWrapper("Invalid request. doctor_uuid or patient_uuid is empty"));
         }
 
         try {
@@ -71,10 +72,10 @@ public class DoctorController {
             UUID patient_uuid = getUUID(request, patient_key);
             doctorService.removePatient(doctor_uuid, patient_uuid);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(new ResponseMessageWrapper(e.getMessage()));
         }
 
-        return ResponseEntity.ok("Patient successfully removed from doctor.");
+        return ResponseEntity.ok(new ResponseMessageWrapper("Patient successfully removed from doctor."));
     }
 
     @PostMapping(value = "/examination/{patientUsername:.+}/temperature")
@@ -82,22 +83,23 @@ public class DoctorController {
         Double temperature;
         
         if (!request.hasNonNull("value")) {
-            return ResponseEntity.badRequest().body("Could not find value field in request");
+            return ResponseEntity.badRequest().body(new ResponseMessageWrapper("Could not find value field in request"));
         }
 
         try {
             temperature = Double.valueOf(request.get("value").asText());
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body("Invalid value: " + request.get("value").asText() + ". Could not convert to double");
+            return ResponseEntity.badRequest()
+                    .body(new ResponseMessageWrapper("Invalid value: " + request.get("value").asText() + ". Could not convert to double"));
         }
 
         try {
             examinationService.saveTemperatureExamination(patientUsername, temperature);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(new ResponseMessageWrapper(e.getMessage()));
         }
 
-        return ResponseEntity.ok("Examination saved");
+        return ResponseEntity.ok(new ResponseMessageWrapper("Examination saved"));
     }
 
     @PostMapping(value = "/examination/{patientUsername:.+}/heart-rate")
@@ -105,16 +107,16 @@ public class DoctorController {
         HeartRateExaminaiton heartRate = modelMapper.map(request, HeartRateExaminaiton.class);
 
         if (request.getValue() == null || request.getRawData() == null) {
-            return ResponseEntity.badRequest().body("Could not find value or rawData field in request");
+            return ResponseEntity.badRequest().body(new ResponseMessageWrapper("Could not find value or rawData field in request"));
         }
 
         try {
             examinationService.saveHeartRateExamination(patientUsername, heartRate);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(new ResponseMessageWrapper(e.getMessage()));
         }
 
-        return ResponseEntity.ok("Examination saved");
+        return ResponseEntity.ok(new ResponseMessageWrapper("Examination saved"));
     }
 
     private UUID getUUID(ObjectNode request, String key) {

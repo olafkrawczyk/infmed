@@ -10,6 +10,7 @@ import com.gubkra.infmed.infmedRest.repository.AppUserRepository;
 import com.gubkra.infmed.infmedRest.repository.HeartRateExaminationRepository;
 import com.gubkra.infmed.infmedRest.repository.TemperatureExaminationRepository;
 import com.gubkra.infmed.infmedRest.service.examination.ExaminationService;
+import com.gubkra.infmed.infmedRest.utils.ResponseMessageWrapper;
 import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,16 +67,16 @@ public class PatientController {
         HeartRateExaminaiton heartRate = modelMapper.map(request, HeartRateExaminaiton.class);
 
         if (request.getValue() == null || request.getRawData() == null) {
-            return ResponseEntity.badRequest().body("Could not find value or rawData field in request");
+            return ResponseEntity.badRequest().body(new ResponseMessageWrapper("Could not find value or rawData field in request"));
         }
 
         try {
             examinationService.saveHeartRateExamination(principal.getName(), heartRate);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(new ResponseMessageWrapper(e.getMessage()));
         }
 
-        return ResponseEntity.ok("Examination saved");
+        return ResponseEntity.ok(new ResponseMessageWrapper("Examination saved"));
     }
 
     @ApiOperation(value = "Add temperature examination", notes = "Gets { value: 36.6 }")
@@ -85,21 +86,22 @@ public class PatientController {
         Double temperature;
 
         if (!request.hasNonNull("value")) {
-            return ResponseEntity.badRequest().body("Could not find value field in request");
+            return ResponseEntity.badRequest().body(new ResponseMessageWrapper("Could not find value field in request"));
         }
 
         try {
             temperature = Double.valueOf(request.get("value").asText());
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body("Invalid value: " + request.get("value").asText() + ". Could not convert to double");
+            return ResponseEntity.badRequest()
+                    .body(new ResponseMessageWrapper("Invalid value: " + request.get("value").asText() + ". Could not convert to double"));
         }
 
         try {
             examinationService.saveTemperatureExamination(principal.getName(), temperature);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(new ResponseMessageWrapper(e.getMessage()));
         }
 
-        return ResponseEntity.ok("Examination saved");
+        return ResponseEntity.ok(new ResponseMessageWrapper("Examination saved"));
     }
 }

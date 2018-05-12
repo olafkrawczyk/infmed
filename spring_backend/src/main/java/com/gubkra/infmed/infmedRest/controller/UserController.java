@@ -11,6 +11,7 @@ import com.gubkra.infmed.infmedRest.service.domain.user.UserService;
 import com.gubkra.infmed.infmedRest.service.domain.user.exceptions.EmailExists;
 import com.gubkra.infmed.infmedRest.service.domain.user.exceptions.PeselExists;
 import com.gubkra.infmed.infmedRest.service.domain.user.exceptions.UserExists;
+import com.gubkra.infmed.infmedRest.utils.ResponseMessageWrapper;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,9 +59,9 @@ public class UserController {
         try {
             userService.registerPatient(newAppUser);
         } catch (PeselExists | EmailExists | UserExists error) {
-            return ResponseEntity.status(400).body(error.getMessage());
+            return ResponseEntity.status(400).body(new ResponseMessageWrapper(error.getMessage()));
         }
-        return ResponseEntity.ok("Patient saved");
+        return ResponseEntity.ok(new ResponseMessageWrapper("Patient account successfully created"));
     }
 
     @PostMapping(value = "/register/doctor")
@@ -69,8 +70,8 @@ public class UserController {
         try {
             userService.registerDoctor(newAppUser);
         } catch (PeselExists | EmailExists | UserExists error) {
-            return ResponseEntity.status(400).body(error.getMessage());
+            return ResponseEntity.status(400).body(new ResponseMessageWrapper(error.getMessage()));
         }
-        return ResponseEntity.ok("Doctor saved");
+        return ResponseEntity.ok(new ResponseMessageWrapper("Doctor account successfully created"));
     }
 }

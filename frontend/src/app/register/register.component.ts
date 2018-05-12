@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PatientService } from '../services/patient.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
@@ -10,7 +11,7 @@ import { PatientService } from '../services/patient.service';
 export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup;
-  errorMessage : string;
+  responseMessage : string;
 
   constructor(private patientService : PatientService) {
     
@@ -27,7 +28,7 @@ export class RegisterComponent implements OnInit {
       name: new FormControl(null, Validators.required),
       surname: new FormControl(null, Validators.required),
       phoneNumber: new FormControl(null, Validators.required),
-      pesel: new FormControl(null, Validators.required),
+      pesel: new FormControl(null, [Validators.required, Validators.minLength(11), Validators.maxLength(11)]),
       birthDate: new FormControl(null, Validators.required),
       emailAddress: new FormControl(null, Validators.required),
       password: new FormControl(null, Validators.required),
@@ -51,8 +52,16 @@ export class RegisterComponent implements OnInit {
         console.log(this.registerForm.value);
         this.patientService.registerPatient(this.registerForm.value)
           .subscribe(
-            data => console.log(data),
-            error => console.log(error));
+            (resp:any) => this.responseMessage = resp.message,
+            (error:HttpErrorResponse) => {
+                const msg = JSON.parse(error.error);
+                console.log(msg);
+                if (msg.errors) {
+                  this.responseMessage = msg.errors[0].defaultMessage;
+                } else {
+                  this.responseMessage = msg.message;
+                }
+              });
       } else {
         console.log("Registering new doctor account");
       }

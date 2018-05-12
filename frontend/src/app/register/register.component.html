@@ -53,7 +53,7 @@
                   <label>PESEL</label>
                   <input type="text" class="form-control border-input" formControlName="pesel">
                   <span class="text-warning" *ngIf="registerForm.controls.pesel.invalid && 
-                    registerForm.controls.pesel.touched">This field is required.</span>
+                    registerForm.controls.pesel.touched">This field is required and should be 11 characters long.</span>
                 </div>
               </div>
               <div class="col-md-4">
@@ -177,6 +177,7 @@
                 </div>
               </div>
             </div>
+            <div>{{responseMessage}}</div>
             <div class="text-center">
               <button [disabled]="registerForm.invalid || registerForm.controls.password.value != registerForm.controls.matchingPassword.value" type="submit" class="btn btn-info btn-fill btn-wd">Create account</button>
             </div>
