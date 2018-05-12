@@ -9,6 +9,7 @@ import com.gubkra.infmed.infmedRest.domain.dto.AppUserRegisterDTO;
 import com.gubkra.infmed.infmedRest.service.domain.address.AddressService;
 import com.gubkra.infmed.infmedRest.service.domain.user.UserService;
 import com.gubkra.infmed.infmedRest.service.domain.user.exceptions.EmailExists;
+import com.gubkra.infmed.infmedRest.service.domain.user.exceptions.PeselExists;
 import com.gubkra.infmed.infmedRest.service.domain.user.exceptions.UserExists;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -56,7 +57,7 @@ public class UserController {
         AppUser newAppUser = modelMapper.map(user, AppUser.class);
         try {
             userService.registerPatient(newAppUser);
-        } catch (EmailExists | UserExists error) {
+        } catch (PeselExists | EmailExists | UserExists error) {
             return ResponseEntity.status(400).body(error.getMessage());
         }
         return ResponseEntity.ok("Patient saved");
@@ -67,7 +68,7 @@ public class UserController {
         AppUser newAppUser = modelMapper.map(user, AppUser.class);
         try {
             userService.registerDoctor(newAppUser);
-        } catch (EmailExists | UserExists error) {
+        } catch (PeselExists | EmailExists | UserExists error) {
             return ResponseEntity.status(400).body(error.getMessage());
         }
         return ResponseEntity.ok("Doctor saved");

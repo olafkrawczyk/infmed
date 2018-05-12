@@ -4,10 +4,10 @@ import { HttpClient } from '@angular/common/http';
 
 
 @Injectable()
-export class UserSerivce {
+export class PatientService {
     constructor(private http : HttpClient) {}
 
     registerPatient(patientData) {
-        return this.http.post(API_URL, patientData);
+        return this.http.post(API_URL+'/user/register/patient', patientData);
     }
 }

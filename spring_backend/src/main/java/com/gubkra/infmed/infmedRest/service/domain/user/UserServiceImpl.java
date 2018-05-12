@@ -9,6 +9,7 @@ import com.gubkra.infmed.infmedRest.service.AbstractRepositoryService;
 import com.gubkra.infmed.infmedRest.service.ErrorMessages;
 import com.gubkra.infmed.infmedRest.service.domain.address.AddressService;
 import com.gubkra.infmed.infmedRest.service.domain.user.exceptions.EmailExists;
+import com.gubkra.infmed.infmedRest.service.domain.user.exceptions.PeselExists;
 import com.gubkra.infmed.infmedRest.service.domain.user.exceptions.UserExists;
 import com.gubkra.infmed.infmedRest.utils.SecurityConstants;
 import org.slf4j.Logger;
@@ -65,7 +66,7 @@ public class UserServiceImpl extends AbstractRepositoryService<AppUser, UUID> im
 
     @Transactional
     @Override
-    public AppUser registerPatient(AppUser appUser) throws EmailExists, UserExists {
+    public AppUser registerPatient(AppUser appUser) throws EmailExists, UserExists, PeselExists {
         prepareUser(appUser);
 
         Role role = roleRepository.findByName(SecurityConstants.ROLE_PATIENT);
@@ -76,7 +77,7 @@ public class UserServiceImpl extends AbstractRepositoryService<AppUser, UUID> im
 
     @Transactional
     @Override
-    public AppUser registerDoctor(AppUser appUser) throws EmailExists, UserExists {
+    public AppUser registerDoctor(AppUser appUser) throws EmailExists, UserExists, PeselExists {
         prepareUser(appUser);
         Role role = roleRepository.findByName(SecurityConstants.ROLE_DOCTOR);
         appUser.setRoles(Arrays.asList(role));
@@ -84,15 +85,23 @@ public class UserServiceImpl extends AbstractRepositoryService<AppUser, UUID> im
         return addItem(appUser);
     }
 
-    private void prepareUser(AppUser appUser) throws EmailExists, UserExists {
+    private void prepareUser(AppUser appUser) throws EmailExists, UserExists, PeselExists {
         checkIfEmailExists(appUser);
         checkIfUserExists(appUser);
+        checkIfPeselExists(appUser);
 
         appUser.setUuid(UUID.randomUUID());
         appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
 
         Address address = addressService.addItem(appUser.getAddress());
         appUser.setAddress(address);
+    }
+
+    private void checkIfPeselExists(AppUser appUser) throws PeselExists {
+        AppUser repositoryAppUser = ((AppUserRepository)this.repository).findByPesel(appUser.getPesel());
+        if (repositoryAppUser != null) {
+            throw new PeselExists("PESEL already exists: " + appUser.getPesel());
+        }
     }
 
     private void checkIfEmailExists(AppUser appUser) throws EmailExists {

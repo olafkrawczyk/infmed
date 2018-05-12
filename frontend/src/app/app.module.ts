@@ -26,6 +26,8 @@ import { ExaminationsComponent } from './examinations/examinations.component';
 import { DateFormComponent } from './examinations/date-form/date-form.component';
 import { RegisterComponent } from './register/register.component';
 
+import { PatientService } from './services/patient.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,7 +56,7 @@ import { RegisterComponent } from './register/register.component';
     HttpClientModule,
     NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=YOUR_KEY_HERE'})
   ],
-  providers: [],
+  providers: [PatientService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

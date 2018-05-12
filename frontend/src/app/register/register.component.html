@@ -178,7 +178,7 @@
               </div>
             </div>
             <div class="text-center">
-              <button [disabled]="registerForm.invalid" type="submit" class="btn btn-info btn-fill btn-wd">Create account</button>
+              <button [disabled]="registerForm.invalid || registerForm.controls.password.value != registerForm.controls.matchingPassword.value" type="submit" class="btn btn-info btn-fill btn-wd">Create account</button>
             </div>
             <div class="clearfix"></div>
           </form>

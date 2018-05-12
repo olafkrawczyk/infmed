@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { PatientService } from '../services/patient.service';
 
 @Component({
   selector: 'app-register',
@@ -9,8 +10,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup;
+  errorMessage : string;
 
-  constructor() {
+  constructor(private patientService : PatientService) {
     
   }
 
@@ -44,7 +46,17 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.registerForm);
+    if(this.registerForm.valid){
+      if(this.registerForm.controls.accountType.value === 'patient'){
+        console.log(this.registerForm.value);
+        this.patientService.registerPatient(this.registerForm.value)
+          .subscribe(
+            data => console.log(data),
+            error => console.log(error));
+      } else {
+        console.log("Registering new doctor account");
+      }
+    }
   }
 
 }

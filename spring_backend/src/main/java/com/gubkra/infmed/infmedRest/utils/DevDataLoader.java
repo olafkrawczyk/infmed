@@ -5,6 +5,7 @@ import com.gubkra.infmed.infmedRest.repository.*;
 import com.gubkra.infmed.infmedRest.service.domain.address.AddressService;
 import com.gubkra.infmed.infmedRest.service.domain.user.UserService;
 import com.gubkra.infmed.infmedRest.service.domain.user.exceptions.EmailExists;
+import com.gubkra.infmed.infmedRest.service.domain.user.exceptions.PeselExists;
 import com.gubkra.infmed.infmedRest.service.domain.user.exceptions.UserExists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -127,7 +128,7 @@ public class DevDataLoader implements ApplicationListener<ContextRefreshedEvent>
             userService.registerPatient(patient2);
             appUser.setPatients(Arrays.asList(patient, patient2));
             appUserRepository.save(appUser);
-        } catch (EmailExists | UserExists emailExists) {
+        } catch (PeselExists | EmailExists | UserExists emailExists) {
             emailExists.printStackTrace();
         }
     }
