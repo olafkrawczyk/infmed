@@ -63,6 +63,5 @@ public class JWTAuthenticationFillter extends UsernamePasswordAuthenticationFilt
                 .signWith(SignatureAlgorithm.HS512, SECRET.getBytes())
                 .compact();
         resp.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
-//        resp.addHeader("Access-Control-Allow-Origin", req.getHeader("Origin"));
     }
 }
