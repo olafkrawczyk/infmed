@@ -10,6 +10,8 @@ import { AuthService } from '../services/authentication.service';
 export class AuthenticateComponent implements OnInit {
 
   private loginForm : FormGroup;
+  private respMessage : string;
+
   constructor(private authService : AuthService) { }
 
   ngOnInit() {
@@ -26,9 +28,12 @@ export class AuthenticateComponent implements OnInit {
   }
 
   onSubmit() {
-    this.authService.logIn(this.loginForm.controls.username.value, this.loginForm.controls.password.value)
-      .subscribe(data => console.log(data),
-        error => console.log(error));
+    this.authService.login(this.loginForm.controls.username.value,
+      this.loginForm.controls.password.value)
+      .subscribe(data => {
+        this.respMessage = "Successfully logged in" 
+      },
+        error => this.respMessage = 'Could not sign in. Please check your username and password');
   }
 
 }
