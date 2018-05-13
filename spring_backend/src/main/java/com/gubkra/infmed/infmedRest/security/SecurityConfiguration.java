@@ -1,5 +1,6 @@
 package com.gubkra.infmed.infmedRest.security;
 
+import com.google.common.collect.ImmutableList;
 import com.gubkra.infmed.infmedRest.service.UserDetailsServiceImpl;
 import com.gubkra.infmed.infmedRest.service.domain.user.UserService;
 import org.slf4j.Logger;
@@ -46,7 +47,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable().authorizeRequests()
+//        http.csrf().disable()
+        http.cors().and().csrf().disable()
+                .authorizeRequests()
                 .antMatchers(HttpMethod.POST, SIGN_UP_URL_PATIENT).permitAll()
                 .antMatchers(HttpMethod.POST, SIGN_UP_URL_DOCTOR).permitAll()
                 .antMatchers("/h2-console/**").permitAll()
@@ -70,8 +73,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.setAllowedMethodswedOrigins(Arrays.asList("https://example.com"));
+//        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+
+        configuration.setAllowedOrigins(ImmutableList.of("*"));
+        configuration.setAllowedMethods(ImmutableList.of("HEAD",
+                "GET", "POST", "PUT", "DELETE", "PATCH"));
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedHeaders(ImmutableList.of("Authorization", "Cache-Control", "Content-Type"));
+        configuration.addExposedHeader("Authorization");
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 }
