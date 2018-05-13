@@ -28,6 +28,7 @@ import { RegisterComponent } from './register/register.component';
 
 import { PatientService } from './services/patient.service';
 import { AuthenticateComponent } from './authenticate/authenticate.component';
+import { AuthService } from './services/authentication.service';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,7 @@ import { AuthenticateComponent } from './authenticate/authenticate.component';
     HttpClientModule,
     NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=YOUR_KEY_HERE'})
   ],
-  providers: [PatientService],
+  providers: [PatientService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
