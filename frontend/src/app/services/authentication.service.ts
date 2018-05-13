@@ -19,27 +19,23 @@ export class AuthService {
     private _role : string;
 
     constructor(private http: HttpClient) {
-        //
+        // check if token exists in local storage
+        // check if expired 
+        // if not expired log in user using token data
+        const token = localStorage.getItem(token_name);
+        if( token != null && !JWT(token).expired) {
+            this.authenticate(token);
+        }
     }
 
-    login(username, password): Observable<HttpResponse<any>> {
-        return this.http.post<any>(API_URL + '/login',
-            { username: username, password: password }, { observe: 'response' })
-            .pipe(tap(
-                (data: HttpResponse<any>) => {
-                    this.saveToken(data.headers.get('authorization'));
-                    this._isAuthenticated = true;
-                }
-            ));
+    get username() : string {
+        return this.loggedUsername;
     }
 
-    logout(): void {
-        this._isAuthenticated = false;
-        localStorage.removeItem(token_name);
-    }
-
-    isAuthenticated(): boolean {
-        return this._isAuthenticated;
+    private authenticate(token) : void {
+        this.saveToken(token);
+        this.saveUserData(token)
+        this._isAuthenticated = true;
     }
 
     private saveToken(token): void {
@@ -53,6 +49,26 @@ export class AuthService {
         this._role = decodedJWT.role;
     }
 
+    login(username, password): Observable<HttpResponse<any>> {
+        return this.http.post<any>(API_URL + '/login',
+            { username: username, password: password }, { observe: 'response' })
+            .pipe(tap(
+                (data: HttpResponse<any>) => {
+                    const token = data.headers.get('authorization');
+                    this.authenticate(token);
+                }
+            ));
+    }
+
+    logout(): void {
+        this._isAuthenticated = false;
+        localStorage.removeItem(token_name);
+    }
+
+    isAuthenticated(): boolean {
+        return this._isAuthenticated;
+    }
+
     getToken() : string {
         return this._token;
     }
@@ -60,6 +76,5 @@ export class AuthService {
     getRole() : string {
         return this._role;
     }
-
 
 }

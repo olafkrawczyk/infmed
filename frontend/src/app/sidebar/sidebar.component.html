@@ -39,10 +39,9 @@
                 </li>
             </ul>
         </li>
-        <li *ngIf="isNotMobileMenu()">
-            <a href="#">
-                <i class="ti-settings"></i>
-                <p>Settings</p>
+        <li *ngIf="isNotMobileMenu() && authService.isAuthenticated()">
+            <a style="cursor: pointer" (click)="authService.logout()">
+                <p>Logout({{authService.username}})</p>
             </a>
         </li>
         <li class="divider" *ngIf="isNotMobileMenu()"></li>

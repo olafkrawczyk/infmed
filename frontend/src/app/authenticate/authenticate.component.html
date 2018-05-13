@@ -6,6 +6,18 @@
           <h4 class="title">Sign in</h4>
         </div>
         <div class="content">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="text-centered">
+                <h3>Welcome to Medicaly 
+                  <span class="icon-small icon-success">
+                    <i class="ti-heart"></i>
+                  </span></h3>
+                <p>To start please sing in. If you do not have account you 
+                    can create one <a style="cursor: pointer;" routerLink="/register">here</a>.</p>
+              </div>
+            </div>
+          </div>
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <div class="row">
               <div class="col-md-6">

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../services/authentication.service';
 
 declare var $:any;
 
@@ -31,6 +32,11 @@ export const ROUTES: RouteInfo[] = [
 
 export class SidebarComponent implements OnInit {
     public menuItems: any[];
+
+    constructor(private authService : AuthService) {
+        
+    }
+
     ngOnInit() {
         this.menuItems = ROUTES.filter(menuItem => menuItem);
     }

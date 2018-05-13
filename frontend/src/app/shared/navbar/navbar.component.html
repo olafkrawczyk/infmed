@@ -32,10 +32,9 @@
                         <li><a href="#">Another notification</a></li>
                       </ul>
                 </li>
-                <li>
-                    <a href="#">
-                        <i class="ti-settings"></i>
-                        <p>Settings</p>
+                <li *ngIf="authService.isAuthenticated()">
+                    <a style="cursor: pointer" (click)="authService.logout()">
+                        <p>Logout({{authService.username}})</p>
                     </a>
                 </li>
             </ul>
