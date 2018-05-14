@@ -22,11 +22,11 @@ import { PulseComponent } from './examinations/pulse/pulse.component';
 import { TemperatureComponent } from './examinations/temperature/temperature.component';
 import { ExaminationsComponent } from './examinations/examinations.component';
 import { DateFormComponent } from './examinations/date-form/date-form.component';
-import { RegisterComponent } from './register/register.component';
+import { RegisterComponent } from './auth/register/register.component';
 
 import { PatientService } from './services/patient.service';
-import { AuthenticateComponent } from './authenticate/authenticate.component';
-import { AuthService } from './services/authentication.service';
+import { AuthenticateComponent } from './auth/authenticate/authenticate.component';
+import { AuthService } from './auth/authentication.service';
 
 @NgModule({
   declarations: [

@@ -2,7 +2,7 @@ import { Component, OnInit, Renderer, ViewChild, ElementRef } from '@angular/cor
 import { ROUTES } from '../../sidebar/sidebar.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
-import { AuthService } from '../../services/authentication.service';
+import { AuthService } from '../../auth/authentication.service';
 
 @Component({
     moduleId: module.id,

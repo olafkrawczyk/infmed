@@ -8,8 +8,8 @@ import { IconsComponent }   from './icons/icons.component';
 import { NotificationsComponent }   from './notifications/notifications.component';
 import { UpgradeComponent }   from './upgrade/upgrade.component';
 import { ExaminationsComponent } from './examinations/examinations.component';
-import { RegisterComponent } from './register/register.component';
-import { AuthenticateComponent } from './authenticate/authenticate.component';
+import { RegisterComponent } from './auth/register/register.component';
+import { AuthenticateComponent } from './auth/authenticate/authenticate.component';
 
 export const AppRoutes: Routes = [
     {

@@ -1,4 +1,4 @@
-import { API_URL } from './authentication.service';
+import { API_URL } from '../auth/authentication.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
