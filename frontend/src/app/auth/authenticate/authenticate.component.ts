@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../authentication.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-authenticate',
@@ -12,7 +13,9 @@ export class AuthenticateComponent implements OnInit {
   private loginForm : FormGroup;
   private respMessage : string;
 
-  constructor(private authService : AuthService) { }
+  constructor(private authService : AuthService,
+    private route : ActivatedRoute,
+    private router : Router) { }
 
   ngOnInit() {
     this.createForm();
@@ -28,10 +31,13 @@ export class AuthenticateComponent implements OnInit {
   }
 
   onSubmit() {
+    const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/examinations';
+    console.log(this.route.snapshot.queryParams);
     this.authService.login(this.loginForm.controls.username.value,
       this.loginForm.controls.password.value)
       .subscribe(data => {
         this.respMessage = "Successfully logged in" 
+        this.router.navigate([returnUrl]);
       },
         error => this.respMessage = 'Could not sign in. Please check your username and password');
   }

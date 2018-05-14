@@ -27,6 +27,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { PatientService } from './services/patient.service';
 import { AuthenticateComponent } from './auth/authenticate/authenticate.component';
 import { AuthService } from './auth/authentication.service';
+import { AuthGuardService } from './auth/auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,7 @@ import { AuthService } from './auth/authentication.service';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [PatientService, AuthService],
+  providers: [PatientService, AuthService, AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

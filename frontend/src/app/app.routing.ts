@@ -10,6 +10,7 @@ import { UpgradeComponent }   from './upgrade/upgrade.component';
 import { ExaminationsComponent } from './examinations/examinations.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { AuthenticateComponent } from './auth/authenticate/authenticate.component';
+import { AuthGuardService } from './auth/auth-guard.service';
 
 export const AppRoutes: Routes = [
     {
@@ -19,7 +20,8 @@ export const AppRoutes: Routes = [
     },
     {
         path: 'dashboard',
-        component: DashboardComponent
+        component: DashboardComponent,
+        canActivate : [AuthGuardService]
     },
     {
         path: 'user',
@@ -43,7 +45,8 @@ export const AppRoutes: Routes = [
     },
     {
         path: 'examinations',
-        component: ExaminationsComponent
+        component: ExaminationsComponent,
+        canActivate : [AuthGuardService]
     },
     {
         path: 'register',
