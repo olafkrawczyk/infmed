@@ -15,8 +15,6 @@ export class TokenInterceptorService implements HttpInterceptor {
         setHeaders: {
           Authorization: this.authService.getToken()
         }});
-      console.log("Http intercepted");
-      console.log(req);
     }
     return next.handle(req);
   }
