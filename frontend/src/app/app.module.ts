@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { AppRoutes } from './app.routing';
@@ -28,6 +29,7 @@ import { PatientService } from './services/patient.service';
 import { AuthenticateComponent } from './auth/authenticate/authenticate.component';
 import { AuthService } from './auth/authentication.service';
 import { AuthGuardService } from './auth/auth-guard.service';
+import { TokenInterceptorService } from './auth/token-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -56,7 +58,13 @@ import { AuthGuardService } from './auth/auth-guard.service';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [PatientService, AuthService, AuthGuardService],
+  providers: [PatientService, AuthService, AuthGuardService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass : TokenInterceptorService,
+      multi : true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
