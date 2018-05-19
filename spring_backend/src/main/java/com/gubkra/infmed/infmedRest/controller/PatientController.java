@@ -69,9 +69,21 @@ public class PatientController {
 
     @Transactional
     @GetMapping(value = "/examination/{patientUsername:.+}/heart-rate")
-    public Page<HeartRateExaminationDTO> listHeartRateExamination(Pageable pageable, @PathVariable("patientUsername") String username) {
+    public Page<HeartRateExaminationDTO> listHeartRateExamination(Pageable pageable, @PathVariable("patientUsername") String username,
+                                                                  @RequestParam(value = "startDate", required = false) String startDate,
+                                                                  @RequestParam(value = "endDate", required = false) String endDate) {
         AppUser patient = this.appUserRepository.findByUsername(username);
-        Page<HeartRateExaminaiton> pg = heartRateExaminationRepository.findAllByPatient(patient, pageable);
+
+        Page<HeartRateExaminaiton> pg;
+
+        if (startDate != null && endDate != null) {
+            LocalDate start = LocalDate.parse(startDate);
+            LocalDate end = LocalDate.parse(endDate);
+            pg = heartRateExaminationRepository.findAllByPatientAndDateBetween(patient, start, end, pageable);
+        } else {
+            pg = heartRateExaminationRepository.findAllByPatient(patient, pageable);
+        }
+
         return pg.map((te) -> modelMapper.map(te, HeartRateExaminationDTO.class));
     }
 

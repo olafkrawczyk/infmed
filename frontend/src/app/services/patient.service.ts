@@ -14,4 +14,7 @@ export class PatientService {
     getTemperatureExaminations() {
         return this.http.get(`${API_URL}/patient/examination/${this.authService.username}/temperature`);
     }
+    getHeartRateExaminations() {
+        return this.http.get(`${API_URL}/patient/examination/${this.authService.username}/heart-rate`);
+    }
 }
