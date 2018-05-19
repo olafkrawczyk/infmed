@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { PatientService } from '../services/patient.service';
+import { Examination } from '../models/examination';
 
 @Component({
   selector: 'app-examinations',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ExaminationsComponent implements OnInit {
 
-  constructor() { }
+  examinations : Examination[];
+
+  constructor(private patientService : PatientService) { }
 
   ngOnInit() {
+    this.patientService.getTemperatureExaminations().subscribe(
+      (data : any) => {this.examinations = data.content},
+      error => console.log(error)
+    );
   }
 
 }

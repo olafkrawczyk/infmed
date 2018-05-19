@@ -7,7 +7,7 @@ import { User } from '../models/user';
 
 import * as JWT from 'jwt-decode';
 
-export const API_URL = 'http://localhost:8080';
+export const API_URL = 'http://192.168.0.14:8080';
 const token_name = 'infmed_token';
 
 @Injectable()
@@ -19,11 +19,9 @@ export class AuthService {
     private _role : string;
 
     constructor(private http: HttpClient) {
-        // check if token exists in local storage
-        // check if expired 
-        // if not expired log in user using token data
         const token = localStorage.getItem(token_name);
         if( token != null && !JWT(token).expired) {
+            console.log(JWT(token).expired);
             this.authenticate(token);
         }
     }
