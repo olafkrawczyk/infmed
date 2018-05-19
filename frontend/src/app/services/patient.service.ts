@@ -11,17 +11,15 @@ export class PatientService {
         return this.http.post(API_URL + '/user/register/patient', patientData);
     }
 
-    getTemperatureExaminations(startDate = null, endDate = null, page = 1, records = 20) {
+    getTemperatureExaminations(startDate = null, endDate = null, page = 0, records = 20) {
         if (startDate !== null && endDate !== null) {
-            return this.http.get(`${API_URL}/patient/examination/${this.authService.username}/temperature?
-                startDate=${startDate}&endDate=${endDate}&page=${page}&size=${records}`);
+            return this.http.get(`${API_URL}/patient/examination/${this.authService.username}/temperature?startDate=${startDate}&endDate=${endDate}&page=${page}&size=${records}`);
         }
         return this.http.get(`${API_URL}/patient/examination/${this.authService.username}/temperature`);
     }
-    getHeartRateExaminations(startDate = null, endDate = null, page = 1, records = 20) {
+    getHeartRateExaminations(startDate = null, endDate = null, page = 0, records = 20) {
         if (startDate !== null && endDate !== null) {
-            return this.http.get(`${API_URL}/patient/examination/${this.authService.username}/heart-rate?
-                startDate=${startDate}&endDate=${endDate}&page=${page}&size=${records}`);
+            return this.http.get(`${API_URL}/patient/examination/${this.authService.username}/heart-rate?startDate=${startDate}&endDate=${endDate}&page=${page}&size=${records}`);
         }
         return this.http.get(`${API_URL}/patient/examination/${this.authService.username}/heart-rate`);
     }

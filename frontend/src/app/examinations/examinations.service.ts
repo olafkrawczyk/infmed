@@ -36,7 +36,7 @@ export class ExaminationService {
 
     private async _getTemperatures(startDate: String = null, endDate: String = null) {
         let examinations;
-
+        console.log(startDate, endDate);
         if (startDate !== null && endDate !== null) {
             examinations = await <any>this.patientService
                 .getTemperatureExaminations(startDate, endDate).toPromise();
