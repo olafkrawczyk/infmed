@@ -9,4 +9,6 @@ public class TemperatureExaminationDTO {
     private Long id;
     private LocalDate date;
     private Double value;
+    private String type = "temperature";
+
 }

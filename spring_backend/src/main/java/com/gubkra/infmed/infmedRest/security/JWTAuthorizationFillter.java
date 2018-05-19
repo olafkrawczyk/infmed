@@ -2,6 +2,7 @@ package com.gubkra.infmed.infmedRest.security;
 
 import com.gubkra.infmed.infmedRest.domain.AppUser;
 import com.gubkra.infmed.infmedRest.service.domain.user.UserService;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -46,15 +47,21 @@ public class JWTAuthorizationFillter extends BasicAuthenticationFilter {
         String token = request.getHeader(HEADER_STRING);
         if (token != null) {
             // parse the token.
-            String username = Jwts.parser()
-                    .setSigningKey(SECRET.getBytes())
-                    .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
-                    .getBody()
-                    .getSubject();
+            String username;
+            try {
+                username = Jwts.parser()
+                        .setSigningKey(SECRET.getBytes())
+                        .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
+                        .getBody()
+                        .getSubject();
+            } catch (ExpiredJwtException e) {
+                logger.info(token + " has expired");
+                return null;
+            }
 
             AppUser appUser = userService.findByUsername(username);
 
-            if (appUser != null){
+            if (appUser != null) {
                 return new UsernamePasswordAuthenticationToken(appUser.getUsername(), null, userService.getAuthorities(appUser));
             }
             return null;

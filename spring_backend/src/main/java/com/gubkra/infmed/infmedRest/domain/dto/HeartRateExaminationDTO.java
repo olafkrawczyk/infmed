@@ -10,4 +10,5 @@ public class HeartRateExaminationDTO {
     private LocalDate date;
     private Integer value;
     private Integer[] rawData;
+    private String type = "heart-rate";
 }

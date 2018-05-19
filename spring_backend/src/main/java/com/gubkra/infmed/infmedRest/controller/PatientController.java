@@ -22,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.util.Date;
 
 
 @RestController
@@ -47,15 +49,27 @@ public class PatientController {
 
     @Transactional
     @GetMapping(value = "/examination/{patientUsername:.+}/temperature")
-    public Page<TemperatureExaminationDTO> listTemperatureExamination(Pageable pageable, @PathVariable("patientUsername") String username){
+    public Page<TemperatureExaminationDTO> listTemperatureExamination(Pageable pageable, @PathVariable("patientUsername") String username,
+                                                                      @RequestParam(value = "startDate", required = false) String startDate,
+                                                                      @RequestParam(value = "endDate", required = false) String endDate) {
         AppUser patient = this.appUserRepository.findByUsername(username);
-        Page<TemperatureExamination> pg = temperatureExaminationRepository.findAllByPatient(patient, pageable);
+
+        Page<TemperatureExamination> pg;
+
+        if (startDate != null && endDate != null) {
+            LocalDate start = LocalDate.parse(startDate);
+            LocalDate end = LocalDate.parse(endDate);
+            pg = temperatureExaminationRepository.findAllByPatientAndDateBetween(patient, start, end, pageable);
+        } else {
+            pg = temperatureExaminationRepository.findAllByPatient(patient, pageable);
+        }
+
         return pg.map((te) -> modelMapper.map(te, TemperatureExaminationDTO.class));
     }
 
     @Transactional
     @GetMapping(value = "/examination/{patientUsername:.+}/heart-rate")
-    public Page<HeartRateExaminationDTO> listHeartRateExamination(Pageable pageable, @PathVariable("patientUsername") String username){
+    public Page<HeartRateExaminationDTO> listHeartRateExamination(Pageable pageable, @PathVariable("patientUsername") String username) {
         AppUser patient = this.appUserRepository.findByUsername(username);
         Page<HeartRateExaminaiton> pg = heartRateExaminationRepository.findAllByPatient(patient, pageable);
         return pg.map((te) -> modelMapper.map(te, HeartRateExaminationDTO.class));

@@ -8,7 +8,9 @@ import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Date;
 
 @NoRepositoryBean
 public interface MedicalExaminationRepository<T extends MedicalExamination> extends PagingAndSortingRepository<T, Long> {
@@ -16,4 +18,5 @@ public interface MedicalExaminationRepository<T extends MedicalExamination> exte
     Collection<T> findByPatient_Username(String username);
     @Transactional
     Page<T> findAllByPatient(AppUser patient, Pageable pageable);
+    Page<T> findAllByPatientAndDateBetween(AppUser patient, LocalDate startDate, LocalDate endDate, Pageable pageable);
 }
