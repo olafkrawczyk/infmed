@@ -11,13 +11,17 @@ import { ExaminationService } from './examinations.service';
 export class ExaminationsComponent implements OnInit, OnDestroy {
 
   examinations: Examination[];
+  examinationPage : any;
   subscription: Subscription;
 
   constructor(private examinationService: ExaminationService) { }
 
   ngOnInit() {
     this.subscription = this.examinationService.examinations.subscribe(
-      (data : Examination[]) => this.examinations = data);
+      (data : any) => {
+        this.examinations = data.content;
+        this.examinationPage = data;
+      });
     this.examinationService.getExaminations();
   }
 

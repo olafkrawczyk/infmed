@@ -20,8 +20,9 @@ export class AuthService {
 
     constructor(private http: HttpClient) {
         const token = localStorage.getItem(token_name);
-        if( token != null && !JWT(token).expired) {
-            console.log(JWT(token).expired);
+        const date = Date.now() / 1000 | 0;
+        if( token != null && JWT(token).exp > date) {
+            console.log(JWT(token));
             this.authenticate(token);
         }
     }

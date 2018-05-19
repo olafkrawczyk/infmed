@@ -23,7 +23,6 @@ export class DateFormComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.filterForm.value);
     if(this.filterForm.value.temperature && !this.filterForm.value.heartRate) {
       this.examinationService
         .getTemperatureExaminations(this.filterForm.value.startDate, this.filterForm.value.endDate);
