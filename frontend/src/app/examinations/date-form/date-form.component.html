@@ -1,51 +1,54 @@
 <div class="col-lg-6 col-md-8 col-lg-offset-3 col-md-offset-2">
-  <div class="card">
-      <div class="header">
-          <h4 class="title">Select date</h4>
-      </div>
-      <div class="content">
-          <form [formGroup]="filterForm" (ngSubmit)="submit()">
-              <div class="row">
-                  <div class="col-md-6">
-                      <div class="form-group">
-                          <label for="dateFrom">From</label>
-                          <input type="date" class="form-control border-input" placeholder="From" id="dateFrom"
-                            formControlName="startDate">
-                      </div>
-                  </div>
-                  <div class="col-md-6">
-                      <div class="form-group">
-                          <label for="dateTo">To</label>
-                          <input type="date" class="form-control border-input" placeholder="To" id="dateTo"
-                            formControlName="endDate">
-                      </div>
-                  </div>
-              </div>
-              <div class="row">
-                  <div class="col-md-5 col-lg-3">
-                      <div class="form-group">
-                        <div class="checkbox">
-                          <input type="checkbox" id="heartRate"
-                            formControlName="heartRate">
-                          <label for="heartRate">Heart rate</label>
+    <div class="card">
+        <div class="header">
+            <h4 class="title">Select date</h4>
+        </div>
+        <div class="content">
+            <form [formGroup]="filterForm" (ngSubmit)="getPageResults()">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="dateFrom">From</label>
+                            <input type="date" class="form-control border-input" placeholder="From" id="dateFrom" formControlName="startDate">
                         </div>
-                      </div>
-                  </div>
-                  <div class="col-md-5 col-lg-3">
-                      <div class="form-group">
-                        <div class="checkbox">
-                          <input type="checkbox" id="temperature"  
-                            formControlName="temperature">
-                          <label for="temperature">Temperature</label>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="dateTo">To</label>
+                            <input type="date" class="form-control border-input" placeholder="To" id="dateTo" formControlName="endDate">
                         </div>
-                      </div>
-                  </div>
-              </div>
-              <div class="text-center">
-                  <button type="submit" class="btn btn-info btn-fill btn-wd">Show examinations</button>
-              </div>
-              <div class="clearfix"></div>
-          </form>
-      </div>
-  </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5 col-lg-3">
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <input type="checkbox" id="heartRate" formControlName="heartRate">
+                                <label for="heartRate">Heart rate</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-lg-3">
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <input type="checkbox" id="temperature" formControlName="temperature">
+                                <label for="temperature">Temperature</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-info btn-fill btn-wd">Show examinations</button>
+                </div>
+                <div class="clearfix"></div>
+            </form>
+        </div>
+    </div>
+    <div class="text-center">
+        <ul class="pagination">
+            <li *ngFor="let t of totalPages; let i = index" [ngClass]="{'active': i === page}">
+                <span (click)="getPageResults(i)" style="cursor: pointer;">{{ i+1 }}</span>
+            </li>
+        </ul>
+    </div>
 </div>

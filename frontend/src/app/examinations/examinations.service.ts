@@ -13,9 +13,9 @@ export class ExaminationService {
         this.examinations = new Subject<Examination[]>();
     }
 
-    async getExaminations(startDate: String = null, endDate: String = null) {
-        let tempExaminations = await this._getTemperatures(startDate, endDate);
-        let heartRateExaminations = await this._getHeartRates(startDate, endDate);
+    async getExaminations(startDate: String = null, endDate: String = null, page = 0) {
+        let tempExaminations = await this._getTemperatures(startDate, endDate, page, 10);
+        let heartRateExaminations = await this._getHeartRates(startDate, endDate, page, 10);
 
         let examinations = tempExaminations;
         examinations.pages = Math.max(tempExaminations.pages, heartRateExaminations.pages);
@@ -24,37 +24,37 @@ export class ExaminationService {
         this.examinations.next(this.sortExaminations(examinations));
     }
 
-    async getTemperatureExaminations(startDate: String = null, endDate: String = null) {
-        let examinations = await this._getTemperatures(startDate, endDate);
+    async getTemperatureExaminations(startDate: String = null, endDate: String = null, page = 0) {
+        let examinations = await this._getTemperatures(startDate, endDate, page);
         this.examinations.next(this.sortExaminations(examinations));
     }
 
-    async getHeartRateExaminations(startDate: String = null, endDate: String = null) {
-        let examinations = await this._getHeartRates(startDate, endDate);
+    async getHeartRateExaminations(startDate: String = null, endDate: String = null, page = 0) {
+        let examinations = await this._getHeartRates(startDate, endDate, page);
         this.examinations.next(this.sortExaminations(examinations));
     }
 
-    private async _getTemperatures(startDate: String = null, endDate: String = null) {
+    private async _getTemperatures(startDate: String = null, endDate: String = null, page, records = 20) {
         let examinations;
         if (startDate !== null && endDate !== null) {
             examinations = await <any>this.patientService
-                .getTemperatureExaminations(startDate, endDate).toPromise();
+                .getTemperatureExaminations(startDate, endDate, page).toPromise();
         } else {
             examinations = await <any>this.patientService
-                .getTemperatureExaminations().toPromise();
+                .getTemperatureExaminations(null, null, page, records).toPromise();
         }
         return examinations;
     }
 
-    private async _getHeartRates(startDate: String = null, endDate: String = null) {
+    private async _getHeartRates(startDate: String = null, endDate: String = null, page, records = 20) {
         let examinations;
 
         if (startDate !== null && endDate !== null) {
             examinations = await <any>this.patientService
-                .getHeartRateExaminations(startDate, endDate).toPromise();
+                .getHeartRateExaminations(startDate, endDate, page).toPromise();
         } else {
             examinations = await <any>this.patientService
-                .getHeartRateExaminations().toPromise();
+                .getHeartRateExaminations(null, null, page, records).toPromise();
         }
         return examinations;
     }
