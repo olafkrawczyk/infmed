@@ -30,6 +30,7 @@ import { AuthenticateComponent } from './auth/authenticate/authenticate.componen
 import { AuthService } from './auth/authentication.service';
 import { AuthGuardService } from './auth/auth-guard.service';
 import { TokenInterceptorService } from './auth/token-interceptor.service';
+import { ExaminationService } from './examinations/examinations.service';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,7 @@ import { TokenInterceptorService } from './auth/token-interceptor.service';
       provide: HTTP_INTERCEPTORS,
       useClass : TokenInterceptorService,
       multi : true
-    }
+    }, ExaminationService
   ],
   bootstrap: [AppComponent]
 })

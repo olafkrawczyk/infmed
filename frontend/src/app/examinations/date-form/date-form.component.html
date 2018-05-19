@@ -4,18 +4,20 @@
           <h4 class="title">Select date</h4>
       </div>
       <div class="content">
-          <form [formGroup]="filterForm">
+          <form [formGroup]="filterForm" (ngSubmit)="submit()">
               <div class="row">
                   <div class="col-md-6">
                       <div class="form-group">
                           <label for="dateFrom">From</label>
-                          <input type="date" class="form-control border-input" placeholder="From" id="dateFrom">
+                          <input type="date" class="form-control border-input" placeholder="From" id="dateFrom"
+                            formControlName="startDate">
                       </div>
                   </div>
                   <div class="col-md-6">
                       <div class="form-group">
                           <label for="dateTo">To</label>
-                          <input type="date" class="form-control border-input" placeholder="To" id="dateTo">
+                          <input type="date" class="form-control border-input" placeholder="To" id="dateTo"
+                            formControlName="endDate">
                       </div>
                   </div>
               </div>
@@ -23,7 +25,8 @@
                   <div class="col-md-5 col-lg-3">
                       <div class="form-group">
                         <div class="checkbox">
-                          <input type="checkbox" id="heartRate" name="examType" value="heartRate">
+                          <input type="checkbox" id="heartRate"
+                            formControlName="heartRate">
                           <label for="heartRate">Heart rate</label>
                         </div>
                       </div>
@@ -31,7 +34,8 @@
                   <div class="col-md-5 col-lg-3">
                       <div class="form-group">
                         <div class="checkbox">
-                          <input type="checkbox" id="temperature" name="examType" value="temperature">
+                          <input type="checkbox" id="temperature"  
+                            formControlName="temperature">
                           <label for="temperature">Temperature</label>
                         </div>
                       </div>
