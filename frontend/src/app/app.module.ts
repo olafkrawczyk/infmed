@@ -65,7 +65,7 @@ import { defaultSimpleModalOptions } from 'ngx-simple-modal/dist/simple-modal/si
     HttpClientModule,
     SimpleModalModule
   ],
-  providers: [PatientService, AuthService, AuthGuardService, ExaminationService
+  providers: [PatientService, AuthService, AuthGuardService, ExaminationService,
     {
       provide: DefaultSimpleModalOptionConfig,
       useValue: {...defaultSimpleModalOptions, ...{ closeOnEscape: true, closeOnClickOutside: true }}

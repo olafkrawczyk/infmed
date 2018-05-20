@@ -11,7 +11,7 @@ import { ExaminationModalComponent } from '../../shared/examination-modal/examin
 export class PulseComponent implements OnInit {
 
   @Input()
-  examination: Examination = {date: new Date(), value: 68, raw_data : []};
+  examination: Examination = {date: new Date(), value: 68, rawData : []};
 
   constructor(private modalService : SimpleModalService) { }
 
@@ -19,9 +19,6 @@ export class PulseComponent implements OnInit {
   }
 
   showDataModal() {
-    let disposable = this.modalService.addModal(ExaminationModalComponent, this.examination).subscribe(
-      // data => disposable.unsubscribe()
-    );
-    // setTimeout(() => disposable.unsubscribe(), 10000);
+    let disposable = this.modalService.addModal(ExaminationModalComponent, this.examination).subscribe();
   }
 }

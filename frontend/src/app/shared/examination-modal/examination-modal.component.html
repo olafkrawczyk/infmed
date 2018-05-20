@@ -1,10 +1,15 @@
 <div class="modal-dialog">
   <div class="modal-content">
     <div class="modal-header">
-      <h4>Title</h4>
+      <h4 style="display: inline-block">{{ date | date}}</h4>
+      <h5 style="float: right">
+        <span class="icon-small icon-danger">
+          <i class="ti-heart"></i>
+        </span> {{ value }} bpm</h5>
+      <div class="clearfix"></div>
     </div>
     <div class="modal-body">
-      <p>Chart</p>
+        <div id="examChart" class="ct-chart" style="max-width: 1500px;"></div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-primary" (click)="confirm()">Close</button>

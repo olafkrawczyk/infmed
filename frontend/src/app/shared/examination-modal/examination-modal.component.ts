@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SimpleModalComponent } from 'ngx-simple-modal';
 import { Examination } from '../../models/examination';
+import * as Chartist from 'chartist';
 
 @Component({
   selector: 'app-examination-modal',
@@ -11,13 +12,41 @@ export class ExaminationModalComponent extends SimpleModalComponent<Examination,
 
   date: Date;
   value: number;
-  raw_data: number[];
+  rawData: number[];
 
   constructor() {
     super();
   }
 
   ngOnInit() {
+
+    var dataExam = {
+      labels: new Array(this.rawData.length),
+      series: [[...this.rawData]]
+    };
+
+    var examOpt = {
+        seriesBarDistance: 1,
+        axisX: {
+            showGrid: false
+        },
+        height: "245px",
+        width: `${this.rawData.length*8}px`,
+        showPoint: false,
+    };
+
+    var respExamOpt: any[] = [
+      ['screen and (max-width: 640px)', {
+        seriesBarDistance: 1,
+        axisX: {
+          labelInterpolationFnc: function (value) {
+            return value[0];
+          }
+        }
+      }]
+    ];
+
+    new Chartist.Line('#examChart', dataExam, examOpt, respExamOpt);
   }
 
   confirm() {
@@ -25,3 +54,4 @@ export class ExaminationModalComponent extends SimpleModalComponent<Examination,
     this.close();
   }
 }
+
