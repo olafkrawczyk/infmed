@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { SimpleModalModule, DefaultSimpleModalOptionConfig } from 'ngx-simple-modal';
 
 import { AppComponent } from './app.component';
 import { AppRoutes } from './app.routing';
@@ -31,6 +32,9 @@ import { AuthService } from './auth/authentication.service';
 import { AuthGuardService } from './auth/auth-guard.service';
 import { TokenInterceptorService } from './auth/token-interceptor.service';
 import { ExaminationService } from './examinations/examinations.service';
+import { ExaminationModalComponent } from './shared/examination-modal/examination-modal.component';
+import { defaultSimpleModalOptions } from 'ngx-simple-modal/dist/simple-modal/simple-modal-options';
+
 
 @NgModule({
   declarations: [
@@ -47,7 +51,8 @@ import { ExaminationService } from './examinations/examinations.service';
     ExaminationsComponent,
     DateFormComponent,
     RegisterComponent,
-    AuthenticateComponent
+    AuthenticateComponent,
+    ExaminationModalComponent
   ],
   imports: [
     BrowserModule,
@@ -57,15 +62,21 @@ import { ExaminationService } from './examinations/examinations.service';
     FooterModule,
     FixedPluginModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    SimpleModalModule
   ],
-  providers: [PatientService, AuthService, AuthGuardService,
+  providers: [PatientService, AuthService, AuthGuardService, ExaminationService
+    {
+      provide: DefaultSimpleModalOptionConfig,
+      useValue: {...defaultSimpleModalOptions, ...{ closeOnEscape: true, closeOnClickOutside: true }}
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass : TokenInterceptorService,
       multi : true
-    }, ExaminationService
+    }
   ],
+  entryComponents: [ExaminationModalComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
