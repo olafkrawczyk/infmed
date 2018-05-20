@@ -11,4 +11,12 @@ public class HeartRateExaminationDTO {
     private Integer value;
     private Integer[] rawData;
     private String type = "heart-rate";
+
+    public Integer getValue() {
+        return value;
+    }
+
+    public Integer[] getRawData() {
+        return rawData;
+    }
 }

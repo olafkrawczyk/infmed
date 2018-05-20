@@ -24,6 +24,7 @@ import { TemperatureComponent } from './examinations/temperature/temperature.com
 import { ExaminationsComponent } from './examinations/examinations.component';
 import { DateFormComponent } from './examinations/date-form/date-form.component';
 import { RegisterComponent } from './auth/register/register.component';
+import { MyDoctorsComponent } from './mydoctors/mydoctors.component';
 
 import { PatientService } from './services/patient.service';
 import { AuthenticateComponent } from './auth/authenticate/authenticate.component';
@@ -31,6 +32,7 @@ import { AuthService } from './auth/authentication.service';
 import { AuthGuardService } from './auth/auth-guard.service';
 import { TokenInterceptorService } from './auth/token-interceptor.service';
 import { ExaminationService } from './examinations/examinations.service';
+import { MyDoctorsService } from './mydoctors/mydoctors.service';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,8 @@ import { ExaminationService } from './examinations/examinations.service';
     ExaminationsComponent,
     DateFormComponent,
     RegisterComponent,
-    AuthenticateComponent
+    AuthenticateComponent,
+    MyDoctorsComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +67,7 @@ import { ExaminationService } from './examinations/examinations.service';
       provide: HTTP_INTERCEPTORS,
       useClass : TokenInterceptorService,
       multi : true
-    }, ExaminationService
+    }, ExaminationService, MyDoctorsService
   ],
   bootstrap: [AppComponent]
 })

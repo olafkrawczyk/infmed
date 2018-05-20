@@ -7,7 +7,7 @@ import { User } from '../models/user';
 
 import * as JWT from 'jwt-decode';
 
-export const API_URL = 'http://192.168.0.14:8080';
+export const API_URL = 'http://localhost:8080';
 const token_name = 'infmed_token';
 
 @Injectable()

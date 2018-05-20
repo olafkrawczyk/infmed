@@ -1,6 +1,7 @@
 package com.gubkra.infmed.infmedRest.domain.dto;
 
 import com.gubkra.infmed.infmedRest.domain.Address;
+import com.gubkra.infmed.infmedRest.domain.AppUser;
 import lombok.Data;
 
 import javax.validation.constraints.Min;

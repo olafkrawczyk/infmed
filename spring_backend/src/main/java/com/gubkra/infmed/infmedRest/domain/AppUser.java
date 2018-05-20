@@ -1,5 +1,6 @@
 package com.gubkra.infmed.infmedRest.domain;
 
+import com.sun.javafx.geom.BaseBounds;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -70,5 +71,17 @@ public class AppUser {
     @Override
     public String toString(){
         return "[User]"+this.uuid + " : " + this.getUsername();
+    }
+
+    public ArrayList<AppUser> getDoctors() {
+        return this.doctors != null ? new ArrayList<>(this.doctors) : new ArrayList<>();
+    }
+
+    public Collection<AppUser> getPatients() {
+        return this.patients;
+    }
+
+    public String getUsername() {
+        return this.username;
     }
 }

@@ -23,4 +23,8 @@ export class PatientService {
         }
         return this.http.get(`${API_URL}/patient/examination/${this.authService.username}/heart-rate`);
     }
+
+    getDoctors() {
+        return this.http.get(`${API_URL}/patient/${this.authService.username}/doctors`);
+    }
 }
