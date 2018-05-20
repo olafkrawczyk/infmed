@@ -25,6 +25,7 @@ import { TemperatureComponent } from './examinations/temperature/temperature.com
 import { ExaminationsComponent } from './examinations/examinations.component';
 import { DateFormComponent } from './examinations/date-form/date-form.component';
 import { RegisterComponent } from './auth/register/register.component';
+import { MyDoctorsComponent } from './mydoctors/mydoctors.component';
 
 import { PatientService } from './services/patient.service';
 import { AuthenticateComponent } from './auth/authenticate/authenticate.component';
@@ -35,6 +36,7 @@ import { ExaminationService } from './examinations/examinations.service';
 import { ExaminationModalComponent } from './shared/examination-modal/examination-modal.component';
 import { defaultSimpleModalOptions } from 'ngx-simple-modal/dist/simple-modal/simple-modal-options';
 
+import { MyDoctorsService } from './mydoctors/mydoctors.service';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,8 @@ import { defaultSimpleModalOptions } from 'ngx-simple-modal/dist/simple-modal/si
     DateFormComponent,
     RegisterComponent,
     AuthenticateComponent,
-    ExaminationModalComponent
+    ExaminationModalComponent,
+    MyDoctorsComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +68,7 @@ import { defaultSimpleModalOptions } from 'ngx-simple-modal/dist/simple-modal/si
     HttpClientModule,
     SimpleModalModule
   ],
-  providers: [PatientService, AuthService, AuthGuardService, ExaminationService,
+  providers: [PatientService, AuthService, AuthGuardService, ExaminationService,MyDoctorsService,
     {
       provide: DefaultSimpleModalOptionConfig,
       useValue: {...defaultSimpleModalOptions, ...{ closeOnEscape: true, closeOnClickOutside: true }}

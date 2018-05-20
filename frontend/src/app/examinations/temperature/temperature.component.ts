@@ -9,7 +9,7 @@ import { Examination } from '../../models/examination';
 export class TemperatureComponent implements OnInit {
 
   @Input()
-  examination: Examination = {date: new Date(), value: 36.6, raw_data : []};
+  examination: Examination = {date: new Date(), value: 36.6, rawData : []};
 
   constructor() { }
 

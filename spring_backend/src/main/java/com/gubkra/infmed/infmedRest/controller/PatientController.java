@@ -1,9 +1,11 @@
 package com.gubkra.infmed.infmedRest.controller;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.collect.Streams;
 import com.gubkra.infmed.infmedRest.domain.AppUser;
 import com.gubkra.infmed.infmedRest.domain.HeartRateExaminaiton;
 import com.gubkra.infmed.infmedRest.domain.TemperatureExamination;
+import com.gubkra.infmed.infmedRest.domain.dto.AppUserDTO;
 import com.gubkra.infmed.infmedRest.domain.dto.HeartRateExaminationDTO;
 import com.gubkra.infmed.infmedRest.domain.dto.TemperatureExaminationDTO;
 import com.gubkra.infmed.infmedRest.repository.AppUserRepository;
@@ -18,12 +20,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -129,5 +133,20 @@ public class PatientController {
         }
 
         return ResponseEntity.ok(new ResponseMessageWrapper("Examination saved"));
+    }
+
+    @ApiOperation(value = "Return doctors assigned to given patient")
+    @GetMapping("/{patientUsername:.+}/doctors")
+    @Secured("ROLE_PATIENT")
+    public ArrayList<AppUserDTO> getDoctorsAssignedToPatient(@PathVariable("patientUsername") String username) {
+        try {
+            AppUser patient = this.appUserRepository.findByUsername(username);
+
+            if (patient != null && patient.getDoctors() != null) {
+                return new ArrayList<>(Streams.stream(patient.getDoctors()).map(x -> modelMapper.map(x, AppUserDTO.class)).collect(Collectors.toList()));
+            }
+        }
+        catch (Exception ex) { }
+        return new ArrayList<>();
     }
 }
