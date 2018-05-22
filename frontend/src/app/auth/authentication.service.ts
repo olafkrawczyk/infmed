@@ -41,7 +41,7 @@ export class AuthService {
     private _isAuthenticated: boolean = false;
     private _token: string;
     private _role: string;
-    public routesSubject: Subject<RouteInfo[]>;
+    public routesSubject: Subject<RouteInfo[]> =  new Subject<RouteInfo[]>();
 
     constructor(private http: HttpClient, private router: Router) {
         const token = localStorage.getItem(token_name);
@@ -49,7 +49,6 @@ export class AuthService {
         if (token != null && JWT(token).exp > date) {
             this.authenticate(token);
         }
-        this.routesSubject = new Subject<RouteInfo[]>();
     }
 
     get username(): string {
