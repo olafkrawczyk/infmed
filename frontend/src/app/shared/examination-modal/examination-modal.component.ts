@@ -3,6 +3,9 @@ import { SimpleModalComponent } from 'ngx-simple-modal';
 import { Examination } from '../../models/examination';
 import * as Chartist from 'chartist';
 
+
+const SCALING_FACTOR = 6;
+
 @Component({
   selector: 'app-examination-modal',
   templateUrl: './examination-modal.component.html',
@@ -31,7 +34,7 @@ export class ExaminationModalComponent extends SimpleModalComponent<Examination,
             showGrid: false
         },
         height: "245px",
-        width: `${this.rawData.length*8}px`,
+        width: `${this.rawData.length*SCALING_FACTOR}px`,
         showPoint: false,
     };
 

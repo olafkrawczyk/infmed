@@ -16,7 +16,7 @@ import { AuthGuardService } from './auth/auth-guard.service';
 export const AppRoutes: Routes = [
     {
         path: '',
-        redirectTo: 'dashboard',
+        redirectTo: 'examinations',
         pathMatch: 'full',
     },
     {
@@ -59,6 +59,7 @@ export const AppRoutes: Routes = [
     },
     {
         path: 'mydoctors',
-        component: MyDoctorsComponent
+        component: MyDoctorsComponent,
+        canActivate: [AuthGuardService]
     }
 ]
