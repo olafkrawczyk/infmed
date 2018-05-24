@@ -54,7 +54,6 @@ public class UserController {
 
     @GetMapping(value = "/{username}")
     public ResponseEntity getUserByUsername(Principal principal, @PathVariable("username") String username) {
-        logger.info(principal.getName());
         AppUser user = userService.findByUsername(username);
         if (user != null) {
             return ResponseEntity.ok(modelMapper.map(user, AppUserDTO.class));
