@@ -37,6 +37,7 @@ import { ExaminationModalComponent } from './shared/examination-modal/examinatio
 import { defaultSimpleModalOptions } from 'ngx-simple-modal/dist/simple-modal/simple-modal-options';
 
 import { MyDoctorsService } from './mydoctors/mydoctors.service';
+import { MyAccountComponent } from './myaccount/myaccount.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { MyDoctorsService } from './mydoctors/mydoctors.service';
     RegisterComponent,
     AuthenticateComponent,
     ExaminationModalComponent,
-    MyDoctorsComponent
+    MyDoctorsComponent,
+    MyAccountComponent
   ],
   imports: [
     BrowserModule,

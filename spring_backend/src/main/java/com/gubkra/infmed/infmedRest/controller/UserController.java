@@ -47,10 +47,20 @@ public class UserController {
     }
 
 
-    @GetMapping(value = "")
-    public List<AppUserDTO> getAll(Principal principal) {
-        logger.info(principal.getName());
+    @GetMapping(value = "/all")
+    public List<AppUserDTO> getAll() {
         return Streams.stream(userService.findAll()).map(x -> modelMapper.map(x, AppUserDTO.class)).collect(Collectors.toList());
+    }
+
+    @GetMapping(value = "/{username}")
+    public ResponseEntity getUserByUsername(Principal principal, @PathVariable("username") String username) {
+        logger.info(principal.getName());
+        AppUser user = userService.findByUsername(username);
+        if (user != null) {
+            return ResponseEntity.ok(modelMapper.map(user, AppUserDTO.class));
+        } else {
+            return ResponseEntity.status(404).body(new ResponseMessageWrapper("Could not find user with "));
+        }
     }
 
     @PostMapping(value = "/register/patient")

@@ -12,6 +12,7 @@ import { ExaminationsComponent } from './examinations/examinations.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { AuthenticateComponent } from './auth/authenticate/authenticate.component';
 import { AuthGuardService } from './auth/auth-guard.service';
+import { MyAccountComponent } from './myaccount/myaccount.component';
 
 export const AppRoutes: Routes = [
     {
@@ -60,6 +61,11 @@ export const AppRoutes: Routes = [
     {
         path: 'mydoctors',
         component: MyDoctorsComponent,
+        canActivate: [AuthGuardService]
+    },
+    {
+        path: 'myaccount',
+        component: MyAccountComponent,
         canActivate: [AuthGuardService]
     }
 ]

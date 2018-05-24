@@ -22,8 +22,9 @@ export interface RouteInfo {
 export const ROUTES: RouteInfo[] = [
     { path: 'examinations', title: 'Examinations', icon: 'ti-notepad', class: '', loginRequired: true },
     { path: 'mydoctors', title: 'My Doctors', icon: 'ti-id-badge', class: '', loginRequired: true },
+    { path: 'myaccount', title: 'My account', icon: 'ti-user', class: '', loginRequired: true },
     { path: 'login', title: 'Sign in', icon: 'ti-unlock', class: '', loginRequired: false },
-    { path: 'register', title: 'New account', icon: 'ti-pencil', class: '', loginRequired: false }
+    { path: 'register', title: 'New account', icon: 'ti-pencil', class: '', loginRequired: false },
     // { path: 'dashboard', title: 'Dashboard',  icon: 'ti-panel', class: '' },
     // { path: 'user', title: 'User Profile',  icon:'ti-user', class: '' },
     // { path: 'table', title: 'Table List',  icon:'ti-view-list-alt', class: '' },
@@ -74,7 +75,7 @@ export class AuthService {
     }
 
     login(username, password): Observable<HttpResponse<any>> {
-        return this.http.post<any>(API_URL + '/login',
+        return this.http.post<any>(`${API_URL}/login`,
             { username: username, password: password }, { observe: 'response' })
             .pipe(tap(
                 (data: HttpResponse<any>) => {
@@ -112,6 +113,13 @@ export class AuthService {
             }
         });
         this.routesSubject.next(menuItems);
+    }
+    getAuthenticatedUserData(){
+        return this.getUserData(this.username);
+    }
+
+    getUserData(username){
+        return this.http.get(`${API_URL}/user/${username}`);
     }
 
 }
