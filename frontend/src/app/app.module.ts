@@ -4,6 +4,9 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { SimpleModalModule, DefaultSimpleModalOptionConfig } from 'ngx-simple-modal';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 import { AppComponent } from './app.component';
 import { AppRoutes } from './app.routing';
@@ -32,7 +35,12 @@ import { AuthService } from './auth/authentication.service';
 import { AuthGuardService } from './auth/auth-guard.service';
 import { TokenInterceptorService } from './auth/token-interceptor.service';
 import { ExaminationService } from './examinations/examinations.service';
+import { ExaminationModalComponent } from './shared/examination-modal/examination-modal.component';
+import { defaultSimpleModalOptions } from 'ngx-simple-modal/dist/simple-modal/simple-modal-options';
+
 import { MyDoctorsService } from './mydoctors/mydoctors.service';
+import { MyAccountComponent } from './myaccount/myaccount.component';
+import { SpinnerComponent } from './shared/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +58,10 @@ import { MyDoctorsService } from './mydoctors/mydoctors.service';
     DateFormComponent,
     RegisterComponent,
     AuthenticateComponent,
-    MyDoctorsComponent
+    ExaminationModalComponent,
+    MyDoctorsComponent,
+    MyAccountComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
@@ -60,15 +71,23 @@ import { MyDoctorsService } from './mydoctors/mydoctors.service';
     FooterModule,
     FixedPluginModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    SimpleModalModule,
+    BrowserAnimationsModule,
+    MatProgressSpinnerModule
   ],
-  providers: [PatientService, AuthService, AuthGuardService,
+  providers: [PatientService, AuthService, AuthGuardService, ExaminationService,MyDoctorsService,
+    {
+      provide: DefaultSimpleModalOptionConfig,
+      useValue: {...defaultSimpleModalOptions, ...{ closeOnEscape: true, closeOnClickOutside: true }}
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass : TokenInterceptorService,
       multi : true
-    }, ExaminationService, MyDoctorsService
+    }
   ],
+  entryComponents: [ExaminationModalComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

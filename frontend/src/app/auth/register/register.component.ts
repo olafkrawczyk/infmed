@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PatientService } from '../../services/patient.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -13,13 +14,12 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   responseMessage : string;
 
-  constructor(private patientService : PatientService) {
+  constructor(private patientService : PatientService, private router : Router) {
     
   }
 
   ngOnInit() {
     this.createForm();
-    console.log(this.registerForm);
   }
 
   createForm() {
@@ -52,10 +52,12 @@ export class RegisterComponent implements OnInit {
         console.log(this.registerForm.value);
         this.patientService.registerPatient(this.registerForm.value)
           .subscribe(
-            (resp:any) => this.responseMessage = resp.message,
+            (resp:any) => {
+              this.responseMessage = resp.message;
+              setTimeout(()=>this.router.navigate(['/login']), 3000);
+            },
             (error:HttpErrorResponse) => {
                 const msg = JSON.parse(error.error);
-                console.log(msg);
                 if (msg.errors) {
                   this.responseMessage = msg.errors[0].defaultMessage;
                 } else {

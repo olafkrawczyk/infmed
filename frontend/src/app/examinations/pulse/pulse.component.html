@@ -1,23 +1,26 @@
 <div class="card">
-  <div class="content">
-      <div class="row">
-          <div class="col-xs-5">
-              <div class="icon-big icon-danger text-center">
-                  <i class="ti-pulse"></i>
-              </div>
-          </div>
-          <div class="col-xs-7">
-              <div class="numbers">
-                  <p>Pulse</p>
-                  {{ examination.value }}
-              </div>
-          </div>
-      </div>
-      <div class="footer">
-          <hr />
-          <div class="stats">
-              <i class="ti-timer"></i> {{ examination.date | date}}
-          </div>
-      </div>
-  </div>
+    <div class="content" (click)="showDataModal()">
+        <div class="row">
+            <div class="col-xs-5">
+                <div class="icon-big icon-danger text-center">
+                    <i class="ti-pulse"></i>
+                </div>
+            </div>
+            <div class="col-xs-7">
+                <div class="numbers">
+                    <p>Pulse</p>
+                    {{ examination.value }} bpm
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <hr />
+            <div class="stats">
+                <i class="ti-timer"></i> {{ examination.date | date}}
+                <div class="div" style="margin-left: 1rem">
+                    <i class="ti-pie-chart"></i> Data available
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

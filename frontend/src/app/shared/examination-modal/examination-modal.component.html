@@ -1,0 +1,18 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 style="display: inline-block">{{ date | date}}</h5>
+      <h5 style="float: right">
+        <span class="icon-small icon-danger">
+          <i class="ti-heart"></i>
+        </span> {{ value }} bpm</h5>
+      <div class="clearfix"></div>
+    </div>
+    <div class="modal-body">
+        <div id="examChart" class="ct-chart" style="max-width: 1500px;"></div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="confirm()">Close</button>
+    </div>
+  </div>
+</div>

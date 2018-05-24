@@ -1,0 +1,138 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-10 col-md-10 col-lg-offset-1 col-md-offset-1">
+      <div class="card">
+        <div class="header">
+          <h4 class="title">Update your credentials</h4>
+        </div>
+        <div class="content">
+          <div class="row">
+            <div class="col-md-12">
+              Here you can change your credentials. <br>This operation cannot be undone. Please be careful.
+            </div>
+          </div>
+          <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group" [ngClass]="{'has-errors': userForm.controls.name.invalid && 
+                    userForm.controls.name.touched}">
+                  <label>First Name</label>
+                  <input type="text" class="form-control border-input" formControlName="name">
+                  <span class="text-warning" *ngIf="userForm.controls.name.invalid && 
+                    userForm.controls.name.touched">This field is required.</span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group" [ngClass]="{'has-errors': userForm.controls.surname.invalid && 
+                    userForm.controls.surname.touched}">
+                  <label>Last Name</label>
+                  <input type="text" class="form-control border-input" formControlName="surname">
+                  <span class="text-warning" *ngIf="userForm.controls.surname.invalid && 
+                    userForm.controls.surname.touched">This field is required.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group" [ngClass]="{'has-errors': userForm.controls.phoneNumber.invalid && 
+                    userForm.controls.phoneNumber.touched}">
+                  <label>Phone number</label>
+                  <input type="text" class="form-control border-input" formControlName="phoneNumber">
+                  <span class="text-warning" *ngIf="userForm.controls.phoneNumber.invalid && 
+                    userForm.controls.phoneNumber.touched">This field is required.</span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group" [ngClass]="{'has-errors': userForm.controls.pesel.invalid && 
+                    userForm.controls.pesel.touched}">
+                  <label>PESEL</label>
+                  <input type="text" class="form-control border-input" formControlName="pesel">
+                  <span class="text-warning" *ngIf="userForm.controls.pesel.invalid && 
+                    userForm.controls.pesel.touched">This field is required and should be 11 characters long.</span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group" [ngClass]="{'has-errors': userForm.controls.birthDate.invalid && 
+                    userForm.controls.birthDate.touched}">
+                  <label>Birth date</label>
+                  <input type="date" class="form-control border-input" formControlName="birthDate">
+                  <span class="text-warning" *ngIf="userForm.controls.birthDate.invalid && 
+                    userForm.controls.birthDate.touched">This field is required.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group" [ngClass]="{'has-errors': userForm.controls.emailAddress.invalid && 
+                    userForm.controls.emailAddress.touched}">
+                  <label for="emailAddress">Email address</label>
+                  <input id="emailAddress" type="email" class="form-control border-input" formControlName="emailAddress">
+                  <span class="text-warning" *ngIf="userForm.controls.emailAddress.invalid && 
+                    userForm.controls.emailAddress.touched">This field is required.</span>
+                </div>
+              </div>
+            </div>
+
+            <div formGroupName="address">
+
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group" [ngClass]="{'has-errors': userForm.controls.address.controls.city.invalid && 
+                    userForm.controls.address.controls.city.touched}">
+                    <label>City</label>
+                    <input type="text" class="form-control border-input" formControlName="city">
+                    <span class="text-warning" *ngIf="userForm.controls.address.controls.city.invalid && 
+                    userForm.controls.address.controls.city.touched">This field is required.</span>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group" [ngClass]="{'has-errors': userForm.controls.address.controls.postalCode.invalid && 
+                    userForm.controls.address.controls.postalCode.touched}">
+                    <label>Postal Code</label>
+                    <input type="text" class="form-control border-input" formControlName="postalCode">
+                    <span class="text-warning" *ngIf="userForm.controls.address.controls.postalCode.invalid && 
+                    userForm.controls.address.controls.postalCode.touched">This field is required.</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group" [ngClass]="{'has-errors': userForm.controls.address.controls.street.invalid && 
+                    userForm.controls.address.controls.street.touched}">
+                    <label>Street</label>
+                    <input type="text" class="form-control border-input" formControlName="street">
+                    <span class="text-warning" *ngIf="userForm.controls.address.controls.street.invalid && 
+                    userForm.controls.address.controls.street.touched">This field is required.</span>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group" [ngClass]="{'has-errors': userForm.controls.address.controls.houseNumber.invalid && 
+                    userForm.controls.address.controls.houseNumber.touched}">
+                    <label>House number</label>
+                    <input type="text" class="form-control border-input" formControlName="houseNumber">
+                    <span class="text-warning" *ngIf="userForm.controls.address.controls.houseNumber.invalid && 
+                    userForm.controls.address.controls.houseNumber.touched">This field is required.</span>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Apartment number</label>
+                    <input type="text" class="form-control border-input" formControlName="apartmentNumber">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="text-center" style="margin-bottom: 1rem;"><h6 class="text-success">{{responseMessage}}</h6></div>
+            <div class="text-center">
+              <button [disabled]="!userForm.valid" type="submit" class="btn btn-info btn-fill btn-wd">Update account</button>
+            </div>
+            <div class="clearfix"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
