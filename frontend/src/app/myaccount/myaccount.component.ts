@@ -18,7 +18,7 @@ export class MyAccountComponent implements OnInit {
   ngOnInit() {
     this.createForm();
     this.authService.getAuthenticatedUserData().subscribe(
-      (user: User) => { console.log(user); this.user = user; this.createForm(user);}
+      (user: User) => {this.user = user; this.createForm(user);}
     );
   }
 
