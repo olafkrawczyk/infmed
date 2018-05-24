@@ -7,6 +7,7 @@ import { User } from '../models/user';
 
 import * as JWT from 'jwt-decode';
 import { Router } from '@angular/router';
+import { SpinnerService } from '../services/spinner.service';
 
 export const API_URL = 'http://localhost:8080';
 const token_name = 'infmed_token';
@@ -44,7 +45,7 @@ export class AuthService {
     private _role: string;
     public routesSubject: Subject<RouteInfo[]> =  new Subject<RouteInfo[]>();
 
-    constructor(private http: HttpClient, private router: Router) {
+    constructor(private http: HttpClient, private router: Router, private sprinnerService : SpinnerService) {
         const token = localStorage.getItem(token_name);
         const date = Date.now() / 1000 | 0;
         if (token != null && JWT(token).exp > date) {
@@ -115,6 +116,7 @@ export class AuthService {
         this.routesSubject.next(menuItems);
     }
     getAuthenticatedUserData(){
+        this.sprinnerService.show();
         return this.getUserData(this.username);
     }
 

@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Examination } from '../models/examination';
 import { Subscription } from 'rxjs';
 import { ExaminationService } from './examinations.service';
+import { SpinnerService } from '../services/spinner.service';
 
 @Component({
   selector: 'app-examinations',
@@ -14,11 +15,12 @@ export class ExaminationsComponent implements OnInit, OnDestroy {
   examinationPage : any;
   subscription: Subscription;
 
-  constructor(private examinationService: ExaminationService) { }
+  constructor(private examinationService: ExaminationService, private spinnerService : SpinnerService) { }
 
   ngOnInit() {
     this.subscription = this.examinationService.examinations.subscribe(
       (data : any) => {
+        this.spinnerService.hide();
         this.examinations = data.content;
         this.examinationPage = data;
       });

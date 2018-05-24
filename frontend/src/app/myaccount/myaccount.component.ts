@@ -3,6 +3,7 @@ import { AuthService } from '../auth/authentication.service';
 import { User } from '../models/user';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PatientService } from '../services/patient.service';
+import { SpinnerService } from '../services/spinner.service';
 
 @Component({
   selector: 'app-myaccount',
@@ -16,7 +17,7 @@ export class MyAccountComponent implements OnInit {
   responseMessage : string;
   loading : boolean = false;
 
-  constructor(private authService: AuthService, private patientService : PatientService) { }
+  constructor(private authService: AuthService, private patientService : PatientService, private spinnerService : SpinnerService) { }
 
   ngOnInit() {
     this.createForm();
@@ -24,7 +25,7 @@ export class MyAccountComponent implements OnInit {
   }
 
   private getUserCredentials() {
-    this.authService.getAuthenticatedUserData().subscribe((user: User) => { this.user = user; this.createForm(user); });
+    this.authService.getAuthenticatedUserData().subscribe((user: User) => { this.user = user; this.createForm(user); this.spinnerService.hide()});
   }
 
   createForm(user: User = null) {
@@ -68,9 +69,11 @@ export class MyAccountComponent implements OnInit {
   }
 
   onSubmit(){
-    this.loading = true;
+    this.spinnerService.show();
+    this.responseMessage = '';
     this.patientService.updateUserData(this.userForm.value).subscribe(
       (data : any) => {this.responseMessage = data.message;
+        this.spinnerService.hide();
         this.getUserCredentials();
         this.loading = false;},
       (err) => {console.log(err)}

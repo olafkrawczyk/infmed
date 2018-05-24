@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { PatientService } from '../services/patient.service';
 import { Examination } from '../models/examination';
 import { Subject } from 'rxjs';
+import { SpinnerService } from '../services/spinner.service';
 
 @Injectable()
 export class ExaminationService {
@@ -9,11 +10,12 @@ export class ExaminationService {
     examinations: Subject<any>;
 
 
-    constructor(private patientService: PatientService) {
+    constructor(private patientService: PatientService, private spinnerService : SpinnerService) {
         this.examinations = new Subject<Examination[]>();
     }
 
     async getExaminations(startDate: String = null, endDate: String = null, page = 0) {
+        this.spinnerService.show();
         let tempExaminations = await this._getTemperatures(startDate, endDate, page, 10);
         let heartRateExaminations = await this._getHeartRates(startDate, endDate, page, 10);
 
@@ -25,11 +27,13 @@ export class ExaminationService {
     }
 
     async getTemperatureExaminations(startDate: String = null, endDate: String = null, page = 0) {
+        this.spinnerService.show();
         let examinations = await this._getTemperatures(startDate, endDate, page);
         this.examinations.next(this.sortExaminations(examinations));
     }
 
     async getHeartRateExaminations(startDate: String = null, endDate: String = null, page = 0) {
+        this.spinnerService.show();
         let examinations = await this._getHeartRates(startDate, endDate, page);
         this.examinations.next(this.sortExaminations(examinations));
     }

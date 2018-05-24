@@ -46,7 +46,7 @@ export class DateFormComponent implements OnInit, OnDestroy {
     } else {
       this.examinationService
         .getExaminations(this.filterForm.value.startDate, this.filterForm.value.endDate, page);
-    }
+    }   
   }
 
 }
