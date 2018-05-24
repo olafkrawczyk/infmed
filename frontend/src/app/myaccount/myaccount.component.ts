@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/authentication.service';
 import { User } from '../models/user';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { PatientService } from '../services/patient.service';
 
 @Component({
   selector: 'app-myaccount',
@@ -12,14 +13,17 @@ export class MyAccountComponent implements OnInit {
 
   user: User;
   userForm: FormGroup;
+  responseMessage : string;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private patientService : PatientService) { }
 
   ngOnInit() {
     this.createForm();
-    this.authService.getAuthenticatedUserData().subscribe(
-      (user: User) => {this.user = user; this.createForm(user);}
-    );
+    this.getUserCredentials();
+  }
+
+  private getUserCredentials() {
+    this.authService.getAuthenticatedUserData().subscribe((user: User) => { this.user = user; this.createForm(user); });
   }
 
   createForm(user: User = null) {
@@ -48,7 +52,7 @@ export class MyAccountComponent implements OnInit {
         phoneNumber: new FormControl(null, Validators.required),
         pesel: new FormControl(null, [Validators.required, Validators.minLength(11), Validators.maxLength(11)]),
         birthDate: new FormControl(null, Validators.required),
-        emailAddress: new FormControl(null, Validators.required),
+        emailAddress: new FormControl(null, [Validators.required, Validators.email]),
         address: new FormGroup(
           {
             postalCode: new FormControl(null, Validators.required),
@@ -60,6 +64,13 @@ export class MyAccountComponent implements OnInit {
         )
       });
     }
+  }
+
+  onSubmit(){
+    this.patientService.updateUserData(this.userForm.value).subscribe(
+      (data : any) => {this.responseMessage = data.message; this.getUserCredentials();},
+      (err) => {console.log(err)}
+    );
   }
 
 }

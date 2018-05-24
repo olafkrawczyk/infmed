@@ -22,6 +22,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
@@ -60,6 +61,27 @@ public class UserController {
         } else {
             return ResponseEntity.status(404).body(new ResponseMessageWrapper("Could not find user with "));
         }
+    }
+    @Transactional
+    @PostMapping(value="/update/{username}")
+    public ResponseEntity updateUserCredentials(@PathVariable("username") String username, @RequestBody AppUserDTO userDTO){
+        AppUser user = this.userService.findByUsername(username);
+        user.setName(userDTO.getName());
+        user.setSurname(userDTO.getSurname());
+        user.setPesel(userDTO.getPesel());
+        user.setBirthDate(userDTO.getBirthDate());
+        user.setEmailAddress(userDTO.getEmailAddress());
+        user.setPhoneNumber(userDTO.getPhoneNumber());
+        userService.addItem(user);
+        Address address = user.getAddress();
+        address.setCity(userDTO.getAddress().getCity());
+        address.setHouseNumber(userDTO.getAddress().getHouseNumber());
+        address.setPostalCode(userDTO.getAddress().getPostalCode());
+        address.setStreet(userDTO.getAddress().getStreet());
+        address.setApartmentNumber(userDTO.getAddress().getApartmentNumber());
+        addressService.addItem(address);
+
+        return ResponseEntity.ok(new ResponseMessageWrapper("Credentials correctly updated"));
     }
 
     @PostMapping(value = "/register/patient")

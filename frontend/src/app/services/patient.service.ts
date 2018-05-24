@@ -1,6 +1,7 @@
 import { API_URL, AuthService } from '../auth/authentication.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { User } from '../models/user';
 
 
 @Injectable()
@@ -25,5 +26,9 @@ export class PatientService {
     }
     getDoctors() {
         return this.http.get(`${API_URL}/patient/${this.authService.username}/doctors`);
+    }
+
+    updateUserData(user : any){
+        return this.http.post(`${API_URL}/user/update/${this.authService.username}`, user);
     }
 }

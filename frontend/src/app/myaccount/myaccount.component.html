@@ -127,7 +127,7 @@
             </div>
             <div>{{responseMessage}}</div>
             <div class="text-center">
-              <button type="submit" class="btn btn-info btn-fill btn-wd">Update account</button>
+              <button [disabled]="!userForm.valid" type="submit" class="btn btn-info btn-fill btn-wd">Update account</button>
             </div>
             <div class="clearfix"></div>
           </form>
