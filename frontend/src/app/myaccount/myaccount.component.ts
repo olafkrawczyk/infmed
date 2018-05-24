@@ -14,6 +14,7 @@ export class MyAccountComponent implements OnInit {
   user: User;
   userForm: FormGroup;
   responseMessage : string;
+  loading : boolean = false;
 
   constructor(private authService: AuthService, private patientService : PatientService) { }
 
@@ -67,8 +68,11 @@ export class MyAccountComponent implements OnInit {
   }
 
   onSubmit(){
+    this.loading = true;
     this.patientService.updateUserData(this.userForm.value).subscribe(
-      (data : any) => {this.responseMessage = data.message; this.getUserCredentials();},
+      (data : any) => {this.responseMessage = data.message;
+        this.getUserCredentials();
+        this.loading = false;},
       (err) => {console.log(err)}
     );
   }

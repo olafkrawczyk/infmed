@@ -5,6 +5,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SimpleModalModule, DefaultSimpleModalOptionConfig } from 'ngx-simple-modal';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 import { AppComponent } from './app.component';
 import { AppRoutes } from './app.routing';
@@ -38,6 +40,7 @@ import { defaultSimpleModalOptions } from 'ngx-simple-modal/dist/simple-modal/si
 
 import { MyDoctorsService } from './mydoctors/mydoctors.service';
 import { MyAccountComponent } from './myaccount/myaccount.component';
+import { SpinnerComponent } from './shared/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +60,8 @@ import { MyAccountComponent } from './myaccount/myaccount.component';
     AuthenticateComponent,
     ExaminationModalComponent,
     MyDoctorsComponent,
-    MyAccountComponent
+    MyAccountComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +72,9 @@ import { MyAccountComponent } from './myaccount/myaccount.component';
     FixedPluginModule,
     ReactiveFormsModule,
     HttpClientModule,
-    SimpleModalModule
+    SimpleModalModule,
+    BrowserAnimationsModule,
+    MatProgressSpinnerModule
   ],
   providers: [PatientService, AuthService, AuthGuardService, ExaminationService,MyDoctorsService,
     {
