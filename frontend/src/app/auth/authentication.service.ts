@@ -17,15 +17,11 @@ export interface RouteInfo {
     title: string;
     icon: string;
     class: string;
-    loginRequired: boolean;
 }
 
-export const ROUTES: RouteInfo[] = [
-    { path: 'examinations', title: 'Examinations', icon: 'ti-notepad', class: '', loginRequired: true },
-    { path: 'mydoctors', title: 'My Doctors', icon: 'ti-id-badge', class: '', loginRequired: true },
-    { path: 'myaccount', title: 'My account', icon: 'ti-user', class: '', loginRequired: true },
-    { path: 'login', title: 'Sign in', icon: 'ti-unlock', class: '', loginRequired: false },
-    { path: 'register', title: 'New account', icon: 'ti-pencil', class: '', loginRequired: false },
+export const NOT_AUTHENTICATED_ROUTES: RouteInfo[] = [
+    { path: 'login', title: 'Sign in', icon: 'ti-unlock', class: ''},
+    { path: 'register', title: 'New account', icon: 'ti-pencil', class: ''},
     // { path: 'dashboard', title: 'Dashboard',  icon: 'ti-panel', class: '' },
     // { path: 'user', title: 'User Profile',  icon:'ti-user', class: '' },
     // { path: 'table', title: 'Table List',  icon:'ti-view-list-alt', class: '' },
@@ -33,6 +29,17 @@ export const ROUTES: RouteInfo[] = [
     // { path: 'icons', title: 'Icons',  icon:'ti-pencil-alt2', class: '' },
     // { path: 'maps', title: 'Maps',  icon:'ti-map', class: '' },
     // { path: 'notifications', title: 'Notifications',  icon:'ti-bell', class: '' }
+];
+
+export const DOCTOR_ROUTES: RouteInfo[] = [
+    { path: 'mypatients', title: 'My patients', icon: 'ti-briefcase', class: ''},
+    { path: 'myaccount', title: 'My account', icon: 'ti-user', class: ''}
+];
+
+export const PATIENT_ROUTES: RouteInfo[] = [
+    { path: 'examinations', title: 'Examinations', icon: 'ti-notepad', class: ''},
+    { path: 'mydoctors', title: 'My Doctors', icon: 'ti-id-badge', class: ''},
+    { path: 'myaccount', title: 'My account', icon: 'ti-user', class: ''}
 ];
 
 
@@ -45,7 +52,7 @@ export class AuthService {
     private _role: string;
     public routesSubject: Subject<RouteInfo[]> =  new Subject<RouteInfo[]>();
 
-    constructor(private http: HttpClient, private router: Router, private sprinnerService : SpinnerService) {
+    constructor(private http: HttpClient, private router: Router, private spinnerService : SpinnerService) {
         const token = localStorage.getItem(token_name);
         const date = Date.now() / 1000 | 0;
         if (token != null && JWT(token).exp > date) {
@@ -73,6 +80,7 @@ export class AuthService {
         const decodedJWT = JWT(token);
         this.loggedUsername = decodedJWT.sub;
         this._role = decodedJWT.role;
+        console.log(this._role);
     }
 
     login(username, password): Observable<HttpResponse<any>> {
@@ -106,17 +114,18 @@ export class AuthService {
     }
 
     getRoutes() {
-        let menuItems = ROUTES.filter((menuItem) => {
-            if (this.isAuthenticated() && menuItem.loginRequired) {
-                return menuItem;
-            } else if (!this.isAuthenticated() && !menuItem.loginRequired) {
-                return menuItem;
-            }
-        });
-        this.routesSubject.next(menuItems);
+        let outputRoutes = [];
+        if(this._isAuthenticated && this._role === 'ROLE_DOCTOR') {
+            outputRoutes = [...DOCTOR_ROUTES];
+        } else if (this._isAuthenticated && this._role === 'ROLE_PATIENT') {
+            outputRoutes = [...PATIENT_ROUTES]
+        } else {
+            outputRoutes = [...NOT_AUTHENTICATED_ROUTES]
+        }
+        this.routesSubject.next(outputRoutes);
     }
     getAuthenticatedUserData(){
-        this.sprinnerService.show();
+        this.spinnerService.show();
         return this.getUserData(this.username);
     }
 

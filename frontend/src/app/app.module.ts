@@ -42,6 +42,7 @@ import { MyDoctorsService } from './mydoctors/mydoctors.service';
 import { MyAccountComponent } from './myaccount/myaccount.component';
 import { SpinnerComponent } from './shared/spinner/spinner.component';
 import { DoctorService } from './services/doctor.service';
+import { MyPatientsComponent } from './doctor/my-patients/my-patients.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { DoctorService } from './services/doctor.service';
     ExaminationModalComponent,
     MyDoctorsComponent,
     MyAccountComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    MyPatientsComponent
   ],
   imports: [
     BrowserModule,
