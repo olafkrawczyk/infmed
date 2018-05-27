@@ -80,7 +80,6 @@ export class AuthService {
         const decodedJWT = JWT(token);
         this.loggedUsername = decodedJWT.sub;
         this._role = decodedJWT.role;
-        console.log(this._role);
     }
 
     login(username, password): Observable<HttpResponse<any>> {

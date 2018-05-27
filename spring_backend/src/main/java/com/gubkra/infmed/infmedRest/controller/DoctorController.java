@@ -73,6 +73,16 @@ public class DoctorController {
         return ResponseEntity.ok(patients);
     }
 
+    @GetMapping(value="/patients/{patientUsername:.+}")
+    public ResponseEntity getPatient(@PathVariable("patientUsername") String username) {
+        //TODO : Check if requested patient is registered to doctor
+        AppUser patient = userRepository.findByUsername(username);
+        if(patient != null) {
+            return ResponseEntity.ok(modelMapper.map(patient, AppUserDTO.class));
+        }
+        return ResponseEntity.status(404).body(new ResponseMessageWrapper("Could not find patient: " + username));
+    }
+
     @ApiOperation(value = "Remove patient from doctor", notes = "{ doctor_uuid : ..., patient_uuid : ...}")
     @DeleteMapping(value = "/patient")
     public ResponseEntity removePatient(@RequestBody ObjectNode request) {

@@ -2,13 +2,13 @@
   <div class="content" (click)="showDataModal()">
     <div class="row">
       <div class="col-xs-12">
-        <h3>Julia Krawczyk</h3>
+        <h3>{{patient.name}} {{patient.surname}}</h3>
         <div>
-          <strong>PESEL:</strong> 97102312451</div>
+          <strong>PESEL:</strong> {{patient.pesel}}</div>
         <div>
-          <strong>Birth date:</strong> 23.10.2994</div>
+          <strong>Birth date:</strong> {{patient.birthDate | date }}</div>
         <div>
-          <strong>Phone number:</strong> 534 080 555</div>
+          <strong>Phone number:</strong> {{patient.phoneNumber}}</div>
       </div>
     </div>
   </div>

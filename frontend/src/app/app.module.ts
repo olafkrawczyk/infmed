@@ -44,6 +44,7 @@ import { SpinnerComponent } from './shared/spinner/spinner.component';
 import { DoctorService } from './services/doctor.service';
 import { MyPatientsComponent } from './doctor/my-patients/my-patients.component';
 import { PatientItemComponent } from './doctor/my-patients/patient-item/patient-item.component';
+import { PatientDetailsComponent } from './doctor/my-patients/patient-details/patient-details.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { PatientItemComponent } from './doctor/my-patients/patient-item/patient-
     MyAccountComponent,
     SpinnerComponent,
     MyPatientsComponent,
-    PatientItemComponent
+    PatientItemComponent,
+    PatientDetailsComponent
   ],
   imports: [
     BrowserModule,

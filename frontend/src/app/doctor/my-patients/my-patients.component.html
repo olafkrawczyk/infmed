@@ -1,13 +1,7 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-4">
-      <app-patient-item></app-patient-item>
-    </div>
-    <div class="col-md-4">
-      <app-patient-item></app-patient-item>
-    </div>
-    <div class="col-md-4">
-      <app-patient-item></app-patient-item>
+    <div class="col-md-4" *ngFor="let patient of patients">
+      <app-patient-item [patient]="patient"></app-patient-item>
     </div>
   </div>
 </div>

@@ -1,0 +1,60 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 card" *ngIf="patient">
+      <table class="table">
+        <thead>
+          <tr>
+            <td>
+              <h3>Patient details</h3>
+            </td>
+          </tr>
+        </thead>
+        <tr>
+          <th>Name</th>
+          <td>{{patient.name}}</td>
+        </tr>
+        <tr>
+          <th>Surname</th>
+          <td>{{patient.surname}}</td>
+        </tr>
+        <tr>
+          <th>PESEL</th>
+          <td>{{patient.pesel}}</td>
+        </tr>
+        <tr>
+          <th>Birth day</th>
+          <td>{{patient.birthDate | date }}</td>
+        </tr>
+        <tr>
+          <th>Phone number</th>
+          <td>{{patient.phoneNumber}}</td>
+        </tr>
+        <tr>
+          <th>Email address</th>
+          <td>{{patient.emailAddress}}</td>
+        </tr>
+        <tr>
+          <th>City</th>
+          <td>{{patient.address.city}}</td>
+        </tr>
+        <tr>
+          <th>Postal Code</th>
+          <td>{{patient.address.postalCode}}</td>
+        </tr>
+        <tr>
+          <th>Street</th>
+          <td>{{patient.address.city}} {{patient.address.houseNumber}}</td>
+        </tr>
+        <tr>
+          <th>Aparment number</th>
+          <td>{{patient.address.apartmentNumber}}</td>
+        </tr>
+      </table>
+    </div>
+    <div class="col-md-12" *ngIf="!patient">
+      <div class="text-center" style="padding-top: 10%">
+        <h2>Could not find patient <strong style="color: orangered">{{patientUsername}}</strong></h2>
+      </div>
+    </div>
+  </div>
+</div>
