@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PatientService } from '../../services/patient.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { DoctorService } from '../../services/doctor.service';
 
 @Component({
   selector: 'app-register',
@@ -12,10 +13,12 @@ import { Router } from '@angular/router';
 export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup;
-  responseMessage : string;
+  responseMessage: string;
 
-  constructor(private patientService : PatientService, private router : Router) {
-    
+  constructor(private patientService: PatientService,
+    private doctorService: DoctorService,
+    private router: Router) {
+
   }
 
   ngOnInit() {
@@ -33,7 +36,7 @@ export class RegisterComponent implements OnInit {
       emailAddress: new FormControl(null, Validators.required),
       password: new FormControl(null, Validators.required),
       matchingPassword: new FormControl(null, Validators.required),
-      accountType : new FormControl("patient"),
+      accountType: new FormControl("patient"),
       address: new FormGroup(
         {
           postalCode: new FormControl(null, Validators.required),
@@ -47,25 +50,37 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    if(this.registerForm.valid){
-      if(this.registerForm.controls.accountType.value === 'patient'){
-        console.log(this.registerForm.value);
+    if (this.registerForm.valid) {
+      if (this.registerForm.controls.accountType.value === 'patient') {
         this.patientService.registerPatient(this.registerForm.value)
           .subscribe(
-            (resp:any) => {
+            (resp: any) => {
               this.responseMessage = resp.message;
-              setTimeout(()=>this.router.navigate(['/login']), 3000);
+              setTimeout(() => this.router.navigate(['/login']), 3000);
             },
-            (error:HttpErrorResponse) => {
-                const msg = JSON.parse(error.error);
-                if (msg.errors) {
-                  this.responseMessage = msg.errors[0].defaultMessage;
-                } else {
-                  this.responseMessage = msg.message;
-                }
-              });
+            (error: HttpErrorResponse) => {
+              const msg = JSON.parse(error.error);
+              if (msg.errors) {
+                this.responseMessage = msg.errors[0].defaultMessage;
+              } else {
+                this.responseMessage = msg.message;
+              }
+            });
       } else {
-        console.log("Registering new doctor account");
+        this.doctorService.registerDoctor(this.registerForm.value)
+          .subscribe(
+            (resp: any) => {
+              this.responseMessage = resp.message;
+              setTimeout(() => this.router.navigate(['/login']), 3000);
+            },
+            (error: HttpErrorResponse) => {
+              const msg = JSON.parse(error.error);
+              if (msg.errors) {
+                this.responseMessage = msg.errors[0].defaultMessage;
+              } else {
+                this.responseMessage = msg.message;
+              }
+            });
       }
     }
   }

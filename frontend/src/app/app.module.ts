@@ -41,6 +41,7 @@ import { defaultSimpleModalOptions } from 'ngx-simple-modal/dist/simple-modal/si
 import { MyDoctorsService } from './mydoctors/mydoctors.service';
 import { MyAccountComponent } from './myaccount/myaccount.component';
 import { SpinnerComponent } from './shared/spinner/spinner.component';
+import { DoctorService } from './services/doctor.service';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,7 @@ import { SpinnerComponent } from './shared/spinner/spinner.component';
     BrowserAnimationsModule,
     MatProgressSpinnerModule
   ],
-  providers: [PatientService, AuthService, AuthGuardService, ExaminationService,MyDoctorsService,
+  providers: [DoctorService, PatientService, AuthService, AuthGuardService, ExaminationService,MyDoctorsService,
     {
       provide: DefaultSimpleModalOptionConfig,
       useValue: {...defaultSimpleModalOptions, ...{ closeOnEscape: true, closeOnClickOutside: true }}
