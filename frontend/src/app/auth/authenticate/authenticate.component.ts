@@ -32,7 +32,6 @@ export class AuthenticateComponent implements OnInit {
 
   onSubmit() {
     const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/examinations';
-    console.log(this.route.snapshot.queryParams);
     this.authService.login(this.loginForm.controls.username.value,
       this.loginForm.controls.password.value)
       .subscribe(data => {

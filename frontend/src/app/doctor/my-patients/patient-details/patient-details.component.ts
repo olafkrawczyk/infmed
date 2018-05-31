@@ -21,7 +21,6 @@ export class PatientDetailsComponent implements OnInit, OnDestroy {
     this.sub = this.activatedRoute.params.subscribe(
       params => {
         this.patientUsername = params['username'];
-        console.log(this.patientUsername);
         this.getPatientDetails(this.patientUsername);
       }
     );

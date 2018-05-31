@@ -19,4 +19,8 @@ export class DoctorService {
     getPatientDetails(username : string){
         return this.http.get(`${API_URL}/doctor/patients/${username}`);
     }
+
+    findPatientByPesel(pesel) {
+        return this.http.get(`${API_URL}/doctor/patients/findByPESEL/${pesel}`);
+    }
 }

@@ -15,6 +15,7 @@ import { AuthGuardService } from './auth/auth-guard.service';
 import { MyAccountComponent } from './myaccount/myaccount.component';
 import { MyPatientsComponent } from './doctor/my-patients/my-patients.component';
 import { PatientDetailsComponent } from './doctor/my-patients/patient-details/patient-details.component';
+import { AddPatientComponent } from './doctor/add-patient/add-patient.component';
 
 export const AppRoutes: Routes = [
     {
@@ -78,6 +79,11 @@ export const AppRoutes: Routes = [
     {
         path: 'mypatients/:username',
         component: PatientDetailsComponent,
+        canActivate: [AuthGuardService]
+    },
+    {
+        path: 'addpatient',
+        component: AddPatientComponent,
         canActivate: [AuthGuardService]
     }
 ]

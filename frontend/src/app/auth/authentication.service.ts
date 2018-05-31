@@ -33,6 +33,7 @@ export const NOT_AUTHENTICATED_ROUTES: RouteInfo[] = [
 
 export const DOCTOR_ROUTES: RouteInfo[] = [
     { path: 'mypatients', title: 'My patients', icon: 'ti-briefcase', class: ''},
+    { path: 'addpatient', title: 'Add patient', icon: 'ti-plus', class: ''},
     { path: 'myaccount', title: 'My account', icon: 'ti-user', class: ''}
 ];
 

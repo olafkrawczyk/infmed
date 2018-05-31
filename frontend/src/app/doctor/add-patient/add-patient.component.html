@@ -1,0 +1,21 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="card text-center">
+        <div class="info-wrapper">
+            <h3>Here you can add new patients to your account</h3>
+            <p>Please input patient's PESEL below and press Search button</p>
+        </div>
+        <form class="form" [formGroup]="patientSearchForm" (ngSubmit)="findPatient()">
+          <div class="form-group">
+            <label for="pesel">PESEL</label>
+            <input class="input" name="pesel" type="text" formControlName="pesel">
+          </div>
+          <div class="error-message">{{errorMessage}}</div>
+          <button class="btn btn-primary btn-fill" type="submit" [disabled]="patientSearchForm.invalid">
+            <i class="ti-search"></i>Search</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

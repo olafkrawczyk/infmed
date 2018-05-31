@@ -66,6 +66,16 @@ public class DoctorController {
         return ResponseEntity.ok(new ResponseMessageWrapper("Patient successfully registered."));
     }
 
+    @GetMapping(value="/patients/findByPESEL/{pesel}")
+    public ResponseEntity findByPesel(Principal principal, @PathVariable("pesel") String pesel){
+        AppUser patient = this.userRepository.findByPesel(pesel);
+        if (patient != null) {
+            return ResponseEntity.ok(this.modelMapper.map(patient, AppUserDTO.class));
+        }
+
+        return ResponseEntity.status(404).body(new ResponseMessageWrapper("Could not find patient with given PESEL"));
+    }
+
     @GetMapping(value="/patients")
     public ResponseEntity getPatients(Principal principal) {
         AppUser doctor = this.userRepository.findByUsername(principal.getName());
