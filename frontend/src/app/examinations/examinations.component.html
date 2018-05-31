@@ -1,6 +1,7 @@
 <div class="container-fluid">
+  <h3 *ngIf="authService.getRole() === 'ROLE_DOCTOR'" style="margin-top: 0; margin-bottom: 2rem;">List of examinations for patient <strong>{{username}}</strong></h3>
   <div class="row">
-    <app-date-form></app-date-form>
+    <app-date-form [username]="username"></app-date-form>
   </div>
   <div class="row">
     <div class="col-lg-4 col-sm-6" *ngFor="let examination of examinations">

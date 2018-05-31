@@ -1,0 +1,23 @@
+<div class="card">
+  <div class="content" (click)="showDataModal()">
+    <div class="row">
+      <div class="col-xs-12">
+        <h3>{{patient.name}} {{patient.surname}}</h3>
+        <div>
+          <strong>PESEL:</strong> {{patient.pesel}}</div>
+        <div>
+          <strong>Birth date:</strong> {{patient.birthDate | date }}</div>
+        <div>
+          <strong>Phone number:</strong> {{patient.phoneNumber}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <hr />
+    <div class="btn-wrapper">
+      <button class="btn btn-sm btn-danger" (click)="deletePatient()">Delete</button>
+      <button class="btn btn-sm btn-primary" (click)="showMoreInfo()">More info</button>
+      <button class="btn btn-sm btn-primary" (click)="showExaminations()">Examinations</button>
+    </div>
+  </div>
+</div>

@@ -1,7 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { ExaminationService } from '../examinations.service';
 import { Subscription } from 'rxjs';
+import { AuthService } from '../../auth/authentication.service';
 
 @Component({
   selector: 'app-date-form',
@@ -10,12 +11,13 @@ import { Subscription } from 'rxjs';
 })
 export class DateFormComponent implements OnInit, OnDestroy {
 
+  @Input() username;
   filterForm : FormGroup;
   subscription : Subscription;
   page : number;
   totalPages : any[];
 
-  constructor(private examinationService : ExaminationService) { }
+  constructor(private authService : AuthService, private examinationService : ExaminationService) { }
 
   ngOnInit() {
     this.filterForm = new FormGroup({
@@ -39,13 +41,13 @@ export class DateFormComponent implements OnInit, OnDestroy {
   getPageResults(page = 0) {
     if(this.filterForm.value.temperature && !this.filterForm.value.heartRate) {
       this.examinationService
-        .getTemperatureExaminations(this.filterForm.value.startDate, this.filterForm.value.endDate, page);
+        .getTemperatureExaminations(this.username, this.filterForm.value.startDate, this.filterForm.value.endDate, page);
     } else if(!this.filterForm.value.temperature && this.filterForm.value.heartRate) {
       this.examinationService
-        .getHeartRateExaminations(this.filterForm.value.startDate, this.filterForm.value.endDate, page);
+        .getHeartRateExaminations(this.username, this.filterForm.value.startDate, this.filterForm.value.endDate, page);
     } else {
       this.examinationService
-        .getExaminations(this.filterForm.value.startDate, this.filterForm.value.endDate, page);
+        .getExaminations(this.username, this.filterForm.value.startDate, this.filterForm.value.endDate, page);
     }   
   }
 

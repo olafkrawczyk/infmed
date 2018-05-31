@@ -1,8 +1,11 @@
 package com.gubkra.infmed.infmedRest.controller;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.gubkra.infmed.infmedRest.domain.AppUser;
 import com.gubkra.infmed.infmedRest.domain.HeartRateExaminaiton;
+import com.gubkra.infmed.infmedRest.domain.dto.AppUserDTO;
 import com.gubkra.infmed.infmedRest.domain.dto.HeartRateExaminationDTO;
+import com.gubkra.infmed.infmedRest.repository.AppUserRepository;
 import com.gubkra.infmed.infmedRest.service.doctor.DoctorService;
 import com.gubkra.infmed.infmedRest.service.examination.ExaminationService;
 import com.gubkra.infmed.infmedRest.utils.ResponseMessageWrapper;
@@ -15,7 +18,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
+import java.security.Principal;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Secured("ROLE_DOCTOR")
 @RestController
@@ -31,11 +38,13 @@ public class DoctorController {
     private String doctor_key = "doctor_uuid";
 
     private ModelMapper modelMapper = new ModelMapper();
+    private AppUserRepository userRepository;
 
     @Autowired
-    public DoctorController(DoctorService doctorService, ExaminationService examinationService) {
+    public DoctorController(DoctorService doctorService, ExaminationService examinationService, AppUserRepository userRepository) {
         this.doctorService = doctorService;
         this.examinationService = examinationService;
+        this.userRepository = userRepository;
     }
 
 
@@ -58,9 +67,37 @@ public class DoctorController {
         return ResponseEntity.ok(new ResponseMessageWrapper("Patient successfully registered."));
     }
 
+    @Transactional
+    @GetMapping(value="/patients/findByPESEL/{pesel}")
+    public ResponseEntity findByPesel(Principal principal, @PathVariable("pesel") String pesel){
+        AppUser doctor = this.userRepository.findByUsername(principal.getName());
+        AppUser patient = this.userRepository.findByPesel(pesel);
+        if (patient != null) {
+            return ResponseEntity.ok(this.modelMapper.map(patient, AppUserDTO.class));
+        }
+
+        return ResponseEntity.status(404).body(new ResponseMessageWrapper("Could not find patient with given PESEL"));
+    }
+
+    @GetMapping(value="/patients")
+    public ResponseEntity getPatients(Principal principal) {
+        AppUser doctor = this.userRepository.findByUsername(principal.getName());
+        List<AppUserDTO> patients = doctor.getPatients().stream().map(x -> this.modelMapper.map(x, AppUserDTO.class)).collect(Collectors.toList());
+        return ResponseEntity.ok(patients);
+    }
+
+    @GetMapping(value="/patients/{patientUsername:.+}")
+    public ResponseEntity getPatient(@PathVariable("patientUsername") String username) {
+        //TODO : Check if requested patient is registered to doctor
+        AppUser patient = userRepository.findByUsername(username);
+        if(patient != null) {
+            return ResponseEntity.ok(modelMapper.map(patient, AppUserDTO.class));
+        }
+        return ResponseEntity.status(404).body(new ResponseMessageWrapper("Could not find patient: " + username));
+    }
 
     @ApiOperation(value = "Remove patient from doctor", notes = "{ doctor_uuid : ..., patient_uuid : ...}")
-    @DeleteMapping(value = "/patient")
+    @PostMapping(value = "/patient/delete")
     public ResponseEntity removePatient(@RequestBody ObjectNode request) {
 
         if (!request.hasNonNull(doctor_key) || !request.hasNonNull(patient_key)) {

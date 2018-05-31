@@ -1,0 +1,31 @@
+.card {
+    padding: 1rem;
+}
+
+.form input {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 50%;
+    font-size: 2rem;
+    margin-left: 1rem;
+    padding-left: 1rem;
+}
+
+.info-wrapper {
+    margin-bottom: 2rem;
+}
+
+.error-message {
+    margin: 1rem 0 1rem 0;
+    color: orangered;
+    transition: all 0.5s ease-in-out;
+}
+
+.btn-wrapper {
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+}
+
+.btn-wrapper .btn {
+    margin: auto;
+}

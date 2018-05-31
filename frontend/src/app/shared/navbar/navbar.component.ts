@@ -1,8 +1,8 @@
-import { Component, OnInit, Renderer, ViewChild, ElementRef } from '@angular/core';
-import { ROUTES } from '../../auth/authentication.service';
+import { Component, OnInit, Renderer, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { AuthService } from '../../auth/authentication.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     moduleId: module.id,
@@ -10,12 +10,13 @@ import { AuthService } from '../../auth/authentication.service';
     templateUrl: 'navbar.component.html'
 })
 
-export class NavbarComponent implements OnInit{
+export class NavbarComponent implements OnInit, OnDestroy{
     private listTitles: any[];
     location: Location;
     private nativeElement: Node;
     private toggleButton;
     private sidebarVisible: boolean;
+    private subscription : Subscription;
 
     @ViewChild("navbar-cmp") button;
 
@@ -27,10 +28,18 @@ export class NavbarComponent implements OnInit{
     }
 
     ngOnInit(){
-        this.listTitles = ROUTES.filter(listTitle => listTitle);
+        this.subscription = this.authService.routesSubject.subscribe(
+            (routes : any[]) => {this.listTitles = [...routes]}
+        );
+        this.authService.getRoutes();
         var navbar : HTMLElement = this.element.nativeElement;
         this.toggleButton = navbar.getElementsByClassName('navbar-toggle')[0];
     }
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
+    }
+
     getTitle(){
         var titlee = window.location.pathname;
         titlee = titlee.substring(1);
