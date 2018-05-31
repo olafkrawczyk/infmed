@@ -23,7 +23,9 @@ export class PatientItemComponent implements OnInit {
   }
 
   deletePatient() {
-    this.doctorService.removePatient(this.patient.uuid);
+    if(confirm(`Delete ${this.patient.name} ${this.patient.surname} from your patients?`)){
+      this.doctorService.removePatient(this.patient.uuid);
+    }
   }
 
 }
