@@ -9,7 +9,7 @@ import * as JWT from 'jwt-decode';
 import { Router } from '@angular/router';
 import { SpinnerService } from '../services/spinner.service';
 
-export const API_URL = 'http://localhost:8080';
+export const API_URL = 'https://infmed.herokuapp.com';
 const token_name = 'infmed_token';
 
 export interface RouteInfo {
