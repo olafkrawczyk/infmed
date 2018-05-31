@@ -54,6 +54,11 @@ export const AppRoutes: Routes = [
         canActivate : [AuthGuardService]
     },
     {
+        path: 'examinations/:username',
+        component: ExaminationsComponent,
+        canActivate : [AuthGuardService]
+    },
+    {
         path: 'register',
         component: RegisterComponent
     },

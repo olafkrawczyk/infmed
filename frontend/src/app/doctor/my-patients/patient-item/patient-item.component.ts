@@ -22,6 +22,10 @@ export class PatientItemComponent implements OnInit {
     this.router.navigate(['/mypatients', this.patient.username]);
   }
 
+  showExaminations(){
+    this.router.navigate(['/examinations', this.patient.username]);
+  }
+
   deletePatient() {
     if(confirm(`Delete ${this.patient.name} ${this.patient.surname} from your patients?`)){
       this.doctorService.removePatient(this.patient.uuid);
