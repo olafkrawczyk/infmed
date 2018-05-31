@@ -3,8 +3,8 @@
     <div class="col-md-8 col-md-offset-2">
       <div class="card text-center">
         <div class="info-wrapper">
-            <h3>Here you can add new patients to your account</h3>
-            <p>Please input patient's PESEL below and press Search button</p>
+          <h3>Here you can add new patients to your account</h3>
+          <p>Please input patient's PESEL below and press Search button</p>
         </div>
         <form class="form" [formGroup]="patientSearchForm" (ngSubmit)="findPatient()">
           <div class="form-group">
@@ -15,6 +15,40 @@
           <button class="btn btn-primary btn-fill" type="submit" [disabled]="patientSearchForm.invalid">
             <i class="ti-search"></i>Search</button>
         </form>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="patient">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="card">
+        <div class="col-md-6">
+          <h3 style="margin-top: 0">{{patient.name}} {{patient.surname}}</h3>
+          <div>
+            <strong>PESEL:</strong> {{patient.pesel}}</div>
+          <div>
+            <strong>Birth date:</strong> {{patient.birthDate | date }}</div>
+          <div>
+            <strong>Phone number:</strong> {{patient.phoneNumber}}</div>
+          <div>
+            <strong>Email address:</strong> {{patient.emailAddress}}</div>
+        </div>
+        <div class="col-md-6">
+          <h5>Address</h5>
+          <div>
+            <strong>City:</strong> {{patient.address.city}}</div>
+          <div>
+            <strong>Street:</strong> {{patient.address.street }} {{patient.address.streetNumber}}</div>
+          <div>
+            <strong>House number:</strong> {{patient.address.houseNumber}}
+            <span *ngIf="patient.address.apartmentNumber">/ {{patient.address.apartmentNumber}}</span>
+          </div>
+        </div>
+        <div class="footer text-center">
+          <hr />
+          <div class="btn-wrapper">
+            <button class="btn btn-md btn-success btn-fill">Add patient</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
