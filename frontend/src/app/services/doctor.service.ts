@@ -24,4 +24,8 @@ export class DoctorService {
     findPatientByPesel(pesel) {
         return this.http.get(`${API_URL}/doctor/patients/findByPESEL/${pesel}`);
     }
+
+    addPatient(uuid){
+        return this.http.get(`${API_URL}/doctor/patients/findByPESEL/${uuid}`);
+    }
 }

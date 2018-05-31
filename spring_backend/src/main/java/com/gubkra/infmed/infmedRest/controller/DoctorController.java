@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
@@ -66,8 +67,10 @@ public class DoctorController {
         return ResponseEntity.ok(new ResponseMessageWrapper("Patient successfully registered."));
     }
 
+    @Transactional
     @GetMapping(value="/patients/findByPESEL/{pesel}")
     public ResponseEntity findByPesel(Principal principal, @PathVariable("pesel") String pesel){
+        AppUser doctor = this.userRepository.findByUsername(principal.getName());
         AppUser patient = this.userRepository.findByPesel(pesel);
         if (patient != null) {
             return ResponseEntity.ok(this.modelMapper.map(patient, AppUserDTO.class));
