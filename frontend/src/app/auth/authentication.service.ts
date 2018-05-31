@@ -52,6 +52,7 @@ export class AuthService {
     private _token: string;
     private _role: string;
     public routesSubject: Subject<RouteInfo[]> =  new Subject<RouteInfo[]>();
+    private loggedUser : User;
 
     constructor(private http: HttpClient, private router: Router, private spinnerService : SpinnerService) {
         const token = localStorage.getItem(token_name);

@@ -46,9 +46,12 @@
           </div>
         </div>
         <div class="footer text-center">
+          <div *ngIf="successMessage !== ''">{{successMessage}}</div>
           <hr />
           <div class="btn-wrapper text-center">
-            <button class="btn btn-md btn-success btn-fill">Add patient</button>
+            <div>
+              <button class="btn btn-md btn-success btn-fill" (click)="addPatient(patient.uuid)">Add patient</button>
+            </div>
           </div>
         </div>
       </div>

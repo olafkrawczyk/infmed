@@ -97,7 +97,7 @@ public class DoctorController {
     }
 
     @ApiOperation(value = "Remove patient from doctor", notes = "{ doctor_uuid : ..., patient_uuid : ...}")
-    @DeleteMapping(value = "/patient")
+    @PostMapping(value = "/patient/delete")
     public ResponseEntity removePatient(@RequestBody ObjectNode request) {
 
         if (!request.hasNonNull(doctor_key) || !request.hasNonNull(patient_key)) {
