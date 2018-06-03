@@ -20,7 +20,8 @@ export class ExaminationService {
         let heartRateExaminations = await this._getHeartRates(username, startDate, endDate, page, 10);
 
         let examinations = tempExaminations;
-        examinations.pages = Math.max(tempExaminations.pages, heartRateExaminations.pages);
+        examinations.pages = Math.max(tempExaminations.totalPages, heartRateExaminations.totalPages);
+        console.log(examinations.pages);
         examinations.content = examinations.content.concat(heartRateExaminations.content);
         
         this.examinations.next(this.sortExaminations(examinations));

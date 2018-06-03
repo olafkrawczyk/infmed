@@ -29,7 +29,7 @@ export class DateFormComponent implements OnInit, OnDestroy {
     this.subscription = this.examinationService.examinations.subscribe(
       data => {
         this.page = data.number;
-        this.totalPages = new Array(data.totalPages);
+        this.totalPages = new Array(data.pages);
       }
     );
   }
